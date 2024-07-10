@@ -1,10 +1,10 @@
 <!-- 插件配置文件：https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
 
-    <id>cn.aixcyi.templugin</id>
-    <name>Plugin Template</name>
+    <id>cn.aixcyi.shebang</id>
+    <name>HooTool - Shebang</name>
     <vendor email="75880483+aixcyi@users.noreply.github.com" url="https://github.com/aixcyi">aixcyi</vendor>
-    <resource-bundle>messages.PluginTemplate</resource-bundle>
+    <resource-bundle>messages.HooToolShebang</resource-bundle>
 
     <!-- 插件兼容性要求：https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
@@ -15,10 +15,21 @@
 
     <!-- 插件实现的扩展：https://plugins.jetbrains.com/docs/intellij/plugin-extensions.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="cn.aixcyi.plugin.shebang.storage.ShebangSettings"/>
+        <applicationConfigurable
+                parentId="tools"
+                id="HooTool.ShebangsConfigurable"
+                instance="cn.aixcyi.plugin.shebang.ui.ShebangConfigurable"
+                displayName="Shebangs">
+        </applicationConfigurable>
     </extensions>
 
     <!-- action 的 text 中的下划线被转义了，所以需要用双下划线来表示下划线，譬如 "__all__" 要写成 "____all____" -->
-    <actions resource-bundle="messages.PluginTemplate">
+    <actions resource-bundle="messages.HooToolShebang">
+        <action id="HooTool.Shebang.Insert"
+                class="cn.aixcyi.plugin.shebang.actions.InsertShebangAction">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
     </actions>
 
 </idea-plugin>
