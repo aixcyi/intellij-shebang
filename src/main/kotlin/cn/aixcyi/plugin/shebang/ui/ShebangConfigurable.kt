@@ -2,6 +2,7 @@ package cn.aixcyi.plugin.shebang.ui
 
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.storage.ShebangSettings
+import cn.aixcyi.plugin.shebang.utils.Shebang
 import cn.aixcyi.plugin.shebang.utils.hFill
 import cn.aixcyi.plugin.shebang.utils.vFill
 import com.intellij.openapi.options.SearchableConfigurable
@@ -58,12 +59,10 @@ class ShebangConfigurable : SearchableConfigurable {
                 message("dialog.PresetShebang.NewOrEdit.title"),
                 null
             )
-            if (string.isNullOrBlank())
+            val shebang = Shebang(string)
+            if (shebang.isBlank())
                 return@setAddAction
-            if (string.startsWith("#!"))
-                shebangModel.add(string.substring(2))
-            else
-                shebangModel.add(string)
+            shebangModel.add(shebang.data)
             shebangList.selectionModel.leadSelectionIndex = shebangModel.size - 1
         }
         .setEditAction {
@@ -74,12 +73,10 @@ class ShebangConfigurable : SearchableConfigurable {
                 shebangModel.getElementAt(shebangList.selectedIndex),
                 null
             )
-            if (string.isNullOrBlank())
+            val shebang = Shebang(string)
+            if (shebang.isBlank())
                 return@setEditAction
-            if (string.startsWith("#!"))
-                shebangModel.setElementAt(string.substring(2), shebangList.selectedIndex)
-            else
-                shebangModel.setElementAt(string, shebangList.selectedIndex)
+            shebangModel.setElementAt(shebang.data, shebangList.selectedIndex)
         }
         .setRemoveAction {
             shebangModel.remove(shebangList.selectedIndex)

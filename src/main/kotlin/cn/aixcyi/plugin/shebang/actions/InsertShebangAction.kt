@@ -3,6 +3,7 @@ package cn.aixcyi.plugin.shebang.actions
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.storage.ShebangSettings
 import cn.aixcyi.plugin.shebang.ui.ShebangConfigurable
+import cn.aixcyi.plugin.shebang.utils.Shebang
 import cn.aixcyi.plugin.shebang.utils.eval
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
@@ -19,7 +20,6 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiFile
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
-import org.apache.commons.lang3.StringUtils
 import kotlin.io.path.Path
 import kotlin.io.path.extension
 
@@ -54,10 +54,10 @@ class InsertShebangAction : DumbAwareAction() {
         val project = file.project
         val state = ShebangSettings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
-        for (shebang in state.myShebangs) {
-            group.add(object : AnAction(shebang) {
+        for (text in state.myShebangs) {
+            group.add(object : AnAction(text) {
                 override fun actionPerformed(e: AnActionEvent) {
-                    writeShebang(file, editor, "#!$shebang")
+                    writeShebang(file, editor, Shebang(text))
                 }
             })
         }
@@ -72,12 +72,8 @@ class InsertShebangAction : DumbAwareAction() {
                 descriptor.title = e.presentation.text
                 descriptor.setRoots(root)
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
-                val newShebang = try {
-                    root.toNioPath().relativize(chosen.toNioPath()).toString()
-                } catch (ex: Exception) {
-                    chosen.path
-                }
-                writeShebang(file, editor, "#!$newShebang")
+                val path = eval { root.toNioPath().relativize(chosen.toNioPath()).toString() } ?: chosen.path
+                writeShebang(file, editor, Shebang(path))
             }
         })
         group.add(object : AnAction(message("action.Shebang.Insert.FromAbsolutePath.text")) {
@@ -86,8 +82,7 @@ class InsertShebangAction : DumbAwareAction() {
                 descriptor.title = e.presentation.text
                 descriptor.setRoots()
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
-                val newShebang = chosen.path
-                writeShebang(file, editor, "#!$newShebang")
+                writeShebang(file, editor, Shebang(chosen.path))
             }
         })
         group.add(object : AnAction(message("action.Shebang.Insert.FromAnyPath.text")) {
@@ -97,9 +92,9 @@ class InsertShebangAction : DumbAwareAction() {
                     message("dialog.PresetShebang.NewOrEdit.title"),
                     null
                 )
-                if (string.isNullOrEmpty()) return
-                val newShebang = StringUtils.stripStart(string, "#!")
-                writeShebang(file, editor, "#!$newShebang")
+                if (string.isNullOrEmpty())
+                    return
+                writeShebang(file, editor, Shebang(string))
             }
         })
         group.addSeparator()
@@ -124,27 +119,27 @@ class InsertShebangAction : DumbAwareAction() {
     /**
      * 将 shebang 写入到文件第一行。
      *
-     * 如果第一行是注释，且与传入的 [newShebang] 完全一致，则只弹出泡泡提示，不进行改动，否则直接替换；
-     * 如果第一行不是注释，则将 [newShebang] 插入到第一行。
+     * 如果第一行是注释，且与传入的 [shebang] 完全一致，则只弹出泡泡提示，不进行改动，否则直接替换；
+     * 如果第一行不是注释，则将 [shebang] 插入到第一行。
      *
-     * @param file       文件
-     * @param editor     编辑器
-     * @param newShebang 新的 shebang。开头必须包含 `#!` 。
+     * @param file 文件。
+     * @param editor 编辑器。
+     * @param shebang 新的 shebang。
      */
-    private fun writeShebang(file: PsiFile, editor: Editor, newShebang: String) {
+    private fun writeShebang(file: PsiFile, editor: Editor, shebang: Shebang) {
         val hint = HintManager.getInstance()
         val firstElement = eval { file.firstChild as PsiComment }
         val runnable =
-            if (firstElement?.text == newShebang) {
+            if (firstElement?.text == shebang.text) {
                 hint.showInformationHint(editor, message("hint.ShebangExisted.text"))
                 return
-            } else if (firstElement?.text?.startsWith("#!") == true) {
+            } else if (firstElement?.text?.startsWith(Shebang.HEAD) == true) {
                 Runnable {
-                    editor.document.replaceString(firstElement.startOffset, firstElement.endOffset, newShebang)
+                    editor.document.replaceString(firstElement.startOffset, firstElement.endOffset, shebang.text)
                 }
             } else {
                 Runnable {
-                    editor.document.insertString(0, "${newShebang}\n")
+                    editor.document.insertString(0, "${shebang}\n")
                 }
             }
         WriteCommandAction.runWriteCommandAction(
