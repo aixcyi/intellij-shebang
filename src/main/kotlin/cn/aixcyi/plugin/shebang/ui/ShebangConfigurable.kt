@@ -5,6 +5,7 @@ import cn.aixcyi.plugin.shebang.storage.ShebangSettings
 import cn.aixcyi.plugin.shebang.utils.Shebang
 import cn.aixcyi.plugin.shebang.utils.hFill
 import cn.aixcyi.plugin.shebang.utils.vFill
+import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.CollectionListModel
@@ -13,6 +14,7 @@ import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.LabelPosition
 import com.intellij.ui.dsl.builder.panel
+import java.awt.Font
 import javax.swing.ListSelectionModel
 
 /**
@@ -38,17 +40,22 @@ class ShebangConfigurable : SearchableConfigurable {
     override fun createComponent() = panel {
         row {
             textField()
+                .label(message("label.SupportSuffixes.text"))
+                .comment(message("label.SupportSuffixes.comment"))
                 .hFill()
                 .apply { suffixField = this.component }
-                .label(message("label.SupportSuffixes.text"), LabelPosition.LEFT)  // TODO: 设置一下字体
-                .comment(message("label.SupportSuffixes.comment"))
+                .apply {
+                    val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
+                    val fontFamily = preferences.fontFamily
+                    this.component.font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
+                }
         }
         row {
             resizableRow()
             cell(createToolbarList())
+                .label(message("label.PresetShebangList.text"), LabelPosition.TOP)
                 .hFill()
                 .vFill()
-                .label(message("label.PresetShebangList.text"), LabelPosition.TOP)
         }
     }
 

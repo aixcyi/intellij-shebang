@@ -20,7 +20,7 @@
                 parentId="tools"
                 id="HooTool.ShebangsConfigurable"
                 instance="cn.aixcyi.plugin.shebang.ui.ShebangConfigurable"
-                displayName="Shebangs">
+                key="configurable.Shebang.display_name">
         </applicationConfigurable>
     </extensions>
 
