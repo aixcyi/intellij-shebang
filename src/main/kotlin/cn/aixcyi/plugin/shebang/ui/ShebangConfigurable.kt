@@ -60,7 +60,10 @@ class ShebangConfigurable : SearchableConfigurable {
             )
             if (string.isNullOrBlank())
                 return@setAddAction
-            shebangModel.add(string)
+            if (string.startsWith("#!"))
+                shebangModel.add(string.substring(2))
+            else
+                shebangModel.add(string)
             shebangList.selectionModel.leadSelectionIndex = shebangModel.size - 1
         }
         .setEditAction {
@@ -73,7 +76,10 @@ class ShebangConfigurable : SearchableConfigurable {
             )
             if (string.isNullOrBlank())
                 return@setEditAction
-            shebangModel.setElementAt(string, shebangList.selectedIndex)
+            if (string.startsWith("#!"))
+                shebangModel.setElementAt(string.substring(2), shebangList.selectedIndex)
+            else
+                shebangModel.setElementAt(string, shebangList.selectedIndex)
         }
         .setRemoveAction {
             shebangModel.remove(shebangList.selectedIndex)
