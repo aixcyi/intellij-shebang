@@ -14,17 +14,23 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
 
     companion object {
         const val DELIMITER = "|"
-        const val PRESET_FILE_SUFFIXES = "bash|sh|zsh|py|java|groovy|gy|gant"
+        const val PRESET_FILE_SUFFIXES = "bash|sh|zsh|py|pl|java|groovy|gy|gant"
 
         /**
          * 插件预置的所有 shebang。
          */
         val PRESET_SHEBANGS = listOf(
-            "/usr/bin/python3",
+            "/bin/bash",
+            "/bin/sh",
+            "/bin/sh -",
+            "/usr/bin/env bash",
             "/usr/bin/env python3",
+            "/usr/bin/env perl",
+            "/usr/bin/env ruby",
+            "/usr/bin/python3",
             "/usr/local/bin/python",
+            "/usr/local/bin/ruby",
             "./venv/Scripts/python.exe",
-            // TODO: 等待补充……
         )
 
         fun getInstance() = service<ShebangSettings>()

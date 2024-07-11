@@ -110,7 +110,7 @@ class InsertShebangAction : DumbAwareAction() {
             message("popup.SelectOneShebang.title"),
             group,
             event.dataContext,
-            JBPopupFactory.ActionSelectionAid.NUMBERING,
+            JBPopupFactory.ActionSelectionAid.ALPHA_NUMBERING,
             true
         )
         popup.showCenteredInCurrentWindow(project)
