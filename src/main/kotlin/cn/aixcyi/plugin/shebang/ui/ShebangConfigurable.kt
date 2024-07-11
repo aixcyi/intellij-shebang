@@ -40,6 +40,7 @@ class ShebangConfigurable : SearchableConfigurable {
                 .hFill()
                 .apply { suffixField = this.component }
                 .label(message("label.SupportSuffixes.text"), LabelPosition.LEFT)  // TODO: 设置一下字体
+                .comment(message("label.SupportSuffixes.comment"))
         }
         row {
             resizableRow()
