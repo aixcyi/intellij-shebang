@@ -2,7 +2,7 @@ package cn.aixcyi.plugin.shebang.ui
 
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.storage.ShebangSettings
-import cn.aixcyi.plugin.shebang.utils.Shebang
+import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
 import cn.aixcyi.plugin.shebang.utils.hFill
 import cn.aixcyi.plugin.shebang.utils.vFill
 import com.intellij.openapi.editor.colors.EditorColorsManager
@@ -66,7 +66,7 @@ class ShebangConfigurable : SearchableConfigurable {
                 message("dialog.PresetShebang.NewOrEdit.title"),
                 null
             )
-            val shebang = Shebang(string)
+            val shebang = ShebangWrapper(string)
             if (shebang.isBlank())
                 return@setAddAction
             shebangModel.add(shebang.data)
@@ -80,7 +80,7 @@ class ShebangConfigurable : SearchableConfigurable {
                 shebangModel.getElementAt(shebangList.selectedIndex),
                 null
             )
-            val shebang = Shebang(string)
+            val shebang = ShebangWrapper(string)
             if (shebang.isBlank())
                 return@setEditAction
             shebangModel.setElementAt(shebang.data, shebangList.selectedIndex)

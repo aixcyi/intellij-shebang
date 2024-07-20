@@ -3,7 +3,7 @@ package cn.aixcyi.plugin.shebang.actions
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.storage.ShebangSettings
 import cn.aixcyi.plugin.shebang.ui.ShebangConfigurable
-import cn.aixcyi.plugin.shebang.utils.Shebang
+import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
 import cn.aixcyi.plugin.shebang.utils.eval
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
@@ -57,7 +57,7 @@ class InsertShebangAction : DumbAwareAction() {
         for (text in state.myShebangs) {
             group.add(object : AnAction(text) {
                 override fun actionPerformed(e: AnActionEvent) {
-                    writeShebang(file, editor, Shebang(text))
+                    writeShebang(file, editor, ShebangWrapper(text))
                 }
             })
         }
@@ -73,7 +73,7 @@ class InsertShebangAction : DumbAwareAction() {
                 descriptor.setRoots(root)
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
                 val path = eval { root.toNioPath().relativize(chosen.toNioPath()).toString() } ?: chosen.path
-                writeShebang(file, editor, Shebang(path))
+                writeShebang(file, editor, ShebangWrapper(path))
             }
         })
         group.add(object : AnAction(message("action.Shebang.Insert.FromAbsolutePath.text")) {
@@ -82,7 +82,7 @@ class InsertShebangAction : DumbAwareAction() {
                 descriptor.title = e.presentation.text
                 descriptor.setRoots()
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
-                writeShebang(file, editor, Shebang(chosen.path))
+                writeShebang(file, editor, ShebangWrapper(chosen.path))
             }
         })
         group.add(object : AnAction(message("action.Shebang.Insert.FromAnyPath.text")) {
@@ -94,7 +94,7 @@ class InsertShebangAction : DumbAwareAction() {
                 )
                 if (string.isNullOrEmpty())
                     return
-                writeShebang(file, editor, Shebang(string))
+                writeShebang(file, editor, ShebangWrapper(string))
             }
         })
         group.addSeparator()
@@ -126,14 +126,14 @@ class InsertShebangAction : DumbAwareAction() {
      * @param editor 编辑器。
      * @param shebang 新的 shebang。
      */
-    private fun writeShebang(file: PsiFile, editor: Editor, shebang: Shebang) {
+    private fun writeShebang(file: PsiFile, editor: Editor, shebang: ShebangWrapper) {
         val hint = HintManager.getInstance()
         val firstElement = eval { file.firstChild as PsiComment }
         val runnable =
             if (firstElement?.text == shebang.text) {
                 hint.showInformationHint(editor, message("hint.ShebangExisted.text"))
                 return
-            } else if (firstElement?.text?.startsWith(Shebang.HEAD) == true) {
+            } else if (firstElement?.text?.startsWith(ShebangWrapper.HEAD) == true) {
                 Runnable {
                     editor.document.replaceString(firstElement.startOffset, firstElement.endOffset, shebang.text)
                 }

@@ -6,7 +6,7 @@ package cn.aixcyi.plugin.shebang.utils
  * @see <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">Shebang (Unix) - Wikipedia</a>
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-class Shebang(string: String?) {
+class ShebangWrapper(string: String?) {
 
     companion object {
         const val HEAD = "#!"
@@ -21,7 +21,7 @@ class Shebang(string: String?) {
         else
             string
 
-    /** Shebang 整体，包含 `#!` 。等同于 [Shebang.toString] 的返回值。 */
+    /** Shebang 整体，包含 `#!` 。等同于 [ShebangWrapper.toString] 的返回值。 */
     val text: String = "${HEAD}${data}"
 
     /** Shebang 内容是否为空（即是否除了 `#!` 没有其它字符）。 */
