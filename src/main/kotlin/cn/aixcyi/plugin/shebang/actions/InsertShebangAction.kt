@@ -52,6 +52,7 @@ class InsertShebangAction : DumbAwareAction() {
         val file = event.getData(CommonDataKeys.PSI_FILE) ?: return
         val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: return
         val project = file.project
+        val existedShebang = ShebangWrapper(eval { file.firstChild as PsiComment }?.text).data
         val state = ShebangSettings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
         for (text in state.myShebangs) {
@@ -111,7 +112,11 @@ class InsertShebangAction : DumbAwareAction() {
             group,
             event.dataContext,
             JBPopupFactory.ActionSelectionAid.ALPHA_NUMBERING,
-            true
+            true,
+            null,
+            -1,
+            { action -> action.templatePresentation.text == existedShebang },
+            null,
         )
         popup.showCenteredInCurrentWindow(project)
     }
