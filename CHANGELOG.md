@@ -1,3 +1,8 @@
 # 更新日志／Changelog
 
-## v0.0.1-SNAPSHOT
+## v1.0.0
+
+正式发布。  
+Officially released.
+
+_Built in 2024-07-10_

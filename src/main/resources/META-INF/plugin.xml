@@ -28,7 +28,7 @@
     <actions resource-bundle="messages.HooToolShebang">
         <action id="HooTool.Shebang.Insert"
                 class="cn.aixcyi.plugin.shebang.actions.InsertShebangAction">
-            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
     </actions>
 
