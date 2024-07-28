@@ -1,7 +1,7 @@
 package cn.aixcyi.plugin.shebang.actions
 
 import cn.aixcyi.plugin.shebang.Zoo.message
-import cn.aixcyi.plugin.shebang.storage.ShebangSettings
+import cn.aixcyi.plugin.shebang.services.ShebangSettings
 import cn.aixcyi.plugin.shebang.ui.ShebangConfigurable
 import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
 import cn.aixcyi.plugin.shebang.utils.eval
