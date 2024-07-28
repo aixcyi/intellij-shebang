@@ -16,6 +16,7 @@ import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.JBPopupFactory
+import com.intellij.openapi.vfs.ReadonlyStatusHandler
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiFile
 import com.intellij.refactoring.suggested.endOffset
@@ -52,6 +53,14 @@ class InsertShebangAction : DumbAwareAction() {
         val file = event.getData(CommonDataKeys.PSI_FILE) ?: return
         val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: return
         val project = file.project
+
+        val handler = ReadonlyStatusHandler.getInstance(project)
+        val status = handler.ensureFilesWritable(listOf(file.virtualFile))
+        if (status.hasReadonlyFiles()) {
+            HintManager.getInstance().showErrorHint(editor, message("hint.EditorIsNotWritable.text"))
+            return
+        }
+
         val existedShebang = ShebangWrapper(eval { file.firstChild as PsiComment }?.text).data
         val state = ShebangSettings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)

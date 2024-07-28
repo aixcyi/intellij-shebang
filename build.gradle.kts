@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.0.0"  // https://semver.org/lang/zh-CN/
+version = "1.1.0"  // https://semver.org/lang/zh-CN/
 
 repositories {
     mavenLocal()
@@ -41,7 +41,7 @@ tasks {
         kotlinOptions.jvmTarget = "17"
     }
     initializeIntelliJPlugin {
-        // selfUpdateCheck = false
+        selfUpdateCheck = false
     }
     runIde {
         jvmArgs = listOf(
