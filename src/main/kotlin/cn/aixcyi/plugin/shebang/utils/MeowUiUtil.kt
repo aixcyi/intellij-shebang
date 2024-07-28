@@ -9,7 +9,7 @@ import javax.swing.JComponent
  * - `align(com.intellij.ui.dsl.builder.AlignX.FILL)`
  * - `horizontalAlign(com.intellij.ui.dsl.gridLayout.HorizontalAlign.FILL)`
  */
-fun <T : JComponent> Cell<T>.hFill(): Cell<T> {
+fun <T : JComponent> Cell<T>.xFill(): Cell<T> {
     exec {
         val klass = Class.forName("com.intellij.ui.dsl.builder.Align")
         val param = Class.forName("com.intellij.ui.dsl.builder.AlignX")
@@ -30,7 +30,7 @@ fun <T : JComponent> Cell<T>.hFill(): Cell<T> {
  * - `align(com.intellij.ui.dsl.builder.AlignY.FILL)`
  * - `verticalAlign(com.intellij.ui.dsl.gridLayout.VerticalAlign.FILL)`
  */
-fun <T : JComponent> Cell<T>.vFill(): Cell<T> {
+fun <T : JComponent> Cell<T>.yFill(): Cell<T> {
     exec {
         val klass = Class.forName("com.intellij.ui.dsl.builder.Align")
         val param = Class.forName("com.intellij.ui.dsl.builder.AlignY")

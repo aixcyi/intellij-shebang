@@ -3,8 +3,8 @@ package cn.aixcyi.plugin.shebang.ui
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.services.ShebangSettings
 import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
-import cn.aixcyi.plugin.shebang.utils.hFill
-import cn.aixcyi.plugin.shebang.utils.vFill
+import cn.aixcyi.plugin.shebang.utils.xFill
+import cn.aixcyi.plugin.shebang.utils.yFill
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.ui.Messages
@@ -42,7 +42,7 @@ class ShebangConfigurable : SearchableConfigurable {
             textField()
                 .label(message("label.SupportSuffixes.text"))
                 .comment(message("label.SupportSuffixes.comment"))
-                .hFill()
+                .xFill()
                 .apply { suffixField = this.component }
                 .apply {
                     val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
@@ -54,8 +54,8 @@ class ShebangConfigurable : SearchableConfigurable {
             resizableRow()
             cell(createToolbarList())
                 .label(message("label.PresetShebangList.text"), LabelPosition.TOP)
-                .hFill()
-                .vFill()
+                .xFill()
+                .yFill()
         }
     }
 
