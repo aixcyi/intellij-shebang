@@ -3,8 +3,6 @@ package cn.aixcyi.plugin.shebang.ui
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.services.ShebangSettings
 import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
-import cn.aixcyi.plugin.shebang.utils.xFill
-import cn.aixcyi.plugin.shebang.utils.yFill
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.options.SearchableConfigurable
 import com.intellij.openapi.ui.Messages
@@ -14,6 +12,8 @@ import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.LabelPosition
 import com.intellij.ui.dsl.builder.panel
+import net.aixcyi.utils.xFill
+import net.aixcyi.utils.yFill
 import java.awt.Font
 import javax.swing.ListSelectionModel
 

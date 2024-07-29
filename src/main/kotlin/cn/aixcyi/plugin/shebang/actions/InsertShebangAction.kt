@@ -4,7 +4,6 @@ import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.services.ShebangSettings
 import cn.aixcyi.plugin.shebang.ui.ShebangConfigurable
 import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
-import cn.aixcyi.plugin.shebang.utils.eval
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
@@ -21,6 +20,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiFile
 import com.intellij.refactoring.suggested.endOffset
 import com.intellij.refactoring.suggested.startOffset
+import net.aixcyi.utils.eval
 import kotlin.io.path.Path
 import kotlin.io.path.extension
 
