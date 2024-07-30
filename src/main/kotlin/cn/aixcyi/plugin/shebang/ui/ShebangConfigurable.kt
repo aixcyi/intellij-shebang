@@ -3,17 +3,24 @@ package cn.aixcyi.plugin.shebang.ui
 import cn.aixcyi.plugin.shebang.Zoo.message
 import cn.aixcyi.plugin.shebang.services.ShebangSettings
 import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
+import com.intellij.icons.AllIcons
+import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.CollectionListModel
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.LabelPosition
+import com.intellij.ui.dsl.builder.RightGap
 import com.intellij.ui.dsl.builder.panel
-import net.aixcyi.utils.xFill
-import net.aixcyi.utils.yFill
+import net.aixcyi.utils.AlignX
+import net.aixcyi.utils.AlignY
+import net.aixcyi.utils.align
+import net.aixcyi.utils.putExtraAction
 import java.awt.Font
 import javax.swing.ListSelectionModel
 
@@ -42,20 +49,34 @@ class ShebangConfigurable : SearchableConfigurable {
             textField()
                 .label(message("label.SupportSuffixes.text"))
                 .comment(message("label.SupportSuffixes.comment"))
-                .xFill()
+                .gap(RightGap.SMALL)
+                .resizableColumn()
+                .align(AlignX.FILL)
                 .apply { suffixField = this.component }
                 .apply {
                     val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
                     val fontFamily = preferences.fontFamily
                     this.component.font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
                 }
+            actionButton(object :
+                DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
+
+                override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+                override fun update(e: AnActionEvent) {
+                    e.presentation.isEnabled = suffixField.text != ShebangSettings.PRESET_FILE_SUFFIXES
+                }
+
+                override fun actionPerformed(e: AnActionEvent) {
+                    suffixField.text = ShebangSettings.PRESET_FILE_SUFFIXES
+                }
+            })
         }
         row {
             resizableRow()
             cell(createToolbarList())
                 .label(message("label.PresetShebangList.text"), LabelPosition.TOP)
-                .xFill()
-                .yFill()
+                .align(AlignX.FILL, AlignY.FILL)
         }
     }
 
@@ -89,6 +110,19 @@ class ShebangConfigurable : SearchableConfigurable {
             shebangModel.remove(shebangList.selectedIndex)
             shebangList.selectionModel.leadSelectionIndex = shebangList.leadSelectionIndex
         }
+        .putExtraAction(object :
+            DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
+
+            override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+            override fun update(e: AnActionEvent) {
+                e.presentation.isEnabled = shebangModel.toList() != ShebangSettings.PRESET_SHEBANGS
+            }
+
+            override fun actionPerformed(e: AnActionEvent) {
+                shebangModel.replaceAll(ShebangSettings.PRESET_SHEBANGS)
+            }
+        })
         .createPanel()
 
     override fun enableSearch(option: String?): Runnable? {

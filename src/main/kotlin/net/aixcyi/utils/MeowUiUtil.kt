@@ -16,7 +16,7 @@ import javax.swing.JLabel
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-object MeowUiUtil {
+data object MeowUiUtil {
     val LOGGER = thisLogger()
 }
 
@@ -50,23 +50,39 @@ fun <T : JComponent> Cell<T>.mnemonic(): Cell<T> {
 }
 
 /**
- * 让 [Cell] 横向填满当前单元格。用于兼容以下两种写法：
- *
- * - `Cell<*>.align(com.intellij.ui.dsl.builder.AlignX.FILL)`
- * - `Cell<*>.horizontalAlign(com.intellij.ui.dsl.gridLayout.HorizontalAlign.FILL)`
+ * 同时设置 [Cell] 的横向及纵向对齐方式。
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-fun <T : JComponent> Cell<T>.xFill(): Cell<T> {
+fun <T : JComponent> Cell<T>.align(vararg aligns: Alignment): Cell<T> {
+    for (align in aligns) {
+        when (align) {
+            is AlignX -> xAlign(align)
+            is AlignY -> yAlign(align)
+            else -> {}
+        }
+    }
+    return this
+}
+
+/**
+ * 设置 [Cell] 的横向对齐方式。用于兼容：
+ *
+ * - 新版本的 `Cell<*>.align(com.intellij.ui.dsl.builder.AlignX)`
+ * - 旧版本的 `Cell<*>.horizontalAlign(com.intellij.ui.dsl.gridLayout.HorizontalAlign)`
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ */
+fun <T : JComponent> Cell<T>.xAlign(align: AlignX): Cell<T> {
     exec {
         val klass = Class.forName("com.intellij.ui.dsl.builder.Align")
         val param = Class.forName("com.intellij.ui.dsl.builder.AlignX")
-            .kotlin.sealedSubclasses.first { it.simpleName == "FILL" }
+            .kotlin.sealedSubclasses.first { it.simpleName == align.name }
             .objectInstance
         javaClass.getMethod("align", klass).invoke(this, param)
     }?.exec {
         val klass = Class.forName("com.intellij.ui.dsl.gridLayout.HorizontalAlign")
-        val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == "FILL" }
+        val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == align.name }
         javaClass.getMethod("horizontalAlign", klass).invoke(this, param)
     }?.run {
         MeowUiUtil.LOGGER.warn("Cell<*>.horizontalAlign() was not found!")
@@ -75,23 +91,23 @@ fun <T : JComponent> Cell<T>.xFill(): Cell<T> {
 }
 
 /**
- * 让 [Cell] 纵向填满当前单元格。用于兼容以下两种写法：
+ * 设置 [Cell] 的纵向对齐方式。用于兼容：
  *
- * - `Cell<*>.align(com.intellij.ui.dsl.builder.AlignY.FILL)`
- * - `Cell<*>.verticalAlign(com.intellij.ui.dsl.gridLayout.VerticalAlign.FILL)`
+ * - 新版本的 `Cell<*>.align(com.intellij.ui.dsl.builder.AlignY)`
+ * - 旧版本的 `Cell<*>.verticalAlign(com.intellij.ui.dsl.gridLayout.VerticalAlign)`
  *
  * @author <a href="https://github.com/aixcyi">砹小翼</a>
  */
-fun <T : JComponent> Cell<T>.yFill(): Cell<T> {
+fun <T : JComponent> Cell<T>.yAlign(align: AlignY): Cell<T> {
     exec {
         val klass = Class.forName("com.intellij.ui.dsl.builder.Align")
         val param = Class.forName("com.intellij.ui.dsl.builder.AlignY")
-            .kotlin.sealedSubclasses.first { it.simpleName == "FILL" }
+            .kotlin.sealedSubclasses.first { it.simpleName == align.name }
             .objectInstance
         javaClass.getMethod("align", klass).invoke(this, param)
     }?.exec {
         val klass = Class.forName("com.intellij.ui.dsl.gridLayout.VerticalAlign")
-        val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == "FILL" }
+        val param = klass.enumConstants.map { it as Enum<*> }.first { it.name == align.name }
         javaClass.getMethod("verticalAlign", klass).invoke(this, param)
     }?.run {
         MeowUiUtil.LOGGER.warn("Cell<*>.verticalAlign() was not found!")
