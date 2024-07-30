@@ -1,8 +1,6 @@
-package cn.aixcyi.plugin.shebang.ui
+package cn.aixcyi.plugin.shebang
 
 import cn.aixcyi.plugin.shebang.Zoo.message
-import cn.aixcyi.plugin.shebang.services.ShebangSettings
-import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent

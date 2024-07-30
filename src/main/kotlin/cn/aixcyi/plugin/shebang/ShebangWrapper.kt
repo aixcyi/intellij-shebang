@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.shebang.utils
+package cn.aixcyi.plugin.shebang
 
 // 此类用于规范输入输出。
 
@@ -22,7 +22,7 @@ class ShebangWrapper(string: String?) {
             string
 
     /** Shebang 整体，包含 `#!` 。等同于 [ShebangWrapper.toString] 的返回值。 */
-    val text: String = "${HEAD}${data}"
+    val text: String = "$HEAD$data"
 
     /** Shebang 内容是否为空（即是否除了 `#!` 没有其它字符）。 */
     fun isBlank(): Boolean = text == HEAD

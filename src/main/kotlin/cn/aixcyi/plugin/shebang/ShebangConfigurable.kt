@@ -1,4 +1,4 @@
-package cn.aixcyi.plugin.shebang.ui
+package cn.aixcyi.plugin.shebang
 
 import cn.aixcyi.plugin.shebang.Zoo.message
 import com.intellij.openapi.options.SearchableConfigurable

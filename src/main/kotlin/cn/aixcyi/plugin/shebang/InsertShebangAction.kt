@@ -1,9 +1,6 @@
-package cn.aixcyi.plugin.shebang.actions
+package cn.aixcyi.plugin.shebang
 
 import cn.aixcyi.plugin.shebang.Zoo.message
-import cn.aixcyi.plugin.shebang.services.ShebangSettings
-import cn.aixcyi.plugin.shebang.ui.ShebangConfigurable
-import cn.aixcyi.plugin.shebang.utils.ShebangWrapper
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction

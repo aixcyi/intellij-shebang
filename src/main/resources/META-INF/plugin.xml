@@ -15,11 +15,11 @@
 
     <!-- 插件实现的扩展：https://plugins.jetbrains.com/docs/intellij/plugin-extensions.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="cn.aixcyi.plugin.shebang.services.ShebangSettings"/>
+        <applicationService serviceImplementation="cn.aixcyi.plugin.shebang.ShebangSettings"/>
         <applicationConfigurable
                 parentId="tools"
                 id="HooTool.ShebangsConfigurable"
-                instance="cn.aixcyi.plugin.shebang.ui.ShebangConfigurable"
+                instance="cn.aixcyi.plugin.shebang.ShebangConfigurable"
                 key="configurable.Shebang.display_name">
         </applicationConfigurable>
     </extensions>
@@ -27,7 +27,7 @@
     <!-- action 的 text 中的下划线被转义了，所以需要用双下划线来表示下划线，譬如 "__all__" 要写成 "____all____" -->
     <actions resource-bundle="messages.HooToolShebang">
         <action id="HooTool.Shebang.Insert"
-                class="cn.aixcyi.plugin.shebang.actions.InsertShebangAction">
+                class="cn.aixcyi.plugin.shebang.InsertShebangAction">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
         </action>
     </actions>

@@ -1,6 +1,5 @@
-package cn.aixcyi.plugin.shebang.services
+package cn.aixcyi.plugin.shebang
 
-import cn.aixcyi.plugin.shebang.Zoo
 import com.intellij.openapi.components.*
 
 /**
