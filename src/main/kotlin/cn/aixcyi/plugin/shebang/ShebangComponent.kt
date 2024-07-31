@@ -14,10 +14,7 @@ import com.intellij.ui.dsl.builder.LabelPosition
 import com.intellij.ui.dsl.builder.RightGap
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
-import net.aixcyi.utils.AlignX
-import net.aixcyi.utils.AlignY
-import net.aixcyi.utils.align
-import net.aixcyi.utils.putExtraAction
+import net.aixcyi.utils.*
 import java.awt.Font
 import javax.swing.ListSelectionModel
 
@@ -87,7 +84,7 @@ class ShebangComponent {
                     font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
                 }
                 .component
-            actionsButton(object :
+            anActionsButton(object :
                 DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
 
                 override fun getActionUpdateThread() = ActionUpdateThread.EDT
