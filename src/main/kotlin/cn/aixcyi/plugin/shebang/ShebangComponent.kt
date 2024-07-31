@@ -16,13 +16,12 @@ import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import net.aixcyi.utils.*
 import java.awt.Font
-import javax.swing.ListSelectionModel
 
 class ShebangComponent {
 
     private val state = ShebangSettings.getInstance().state
     private val shebangModel = CollectionListModel(state.myShebangs)
-    private val shebangList = JBList(shebangModel).apply { selectionMode = ListSelectionModel.SINGLE_SELECTION }
+    private val shebangList = JBList(shebangModel)
     private val toolbarList = ToolbarDecorator
         .createDecorator(shebangList)
         .setAddAction {
