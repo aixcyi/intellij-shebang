@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.1.0"  // https://semver.org/lang/zh-CN/
+version = "1.2.0"  // https://semver.org/lang/zh-CN/
 
 repositories {
     mavenLocal()

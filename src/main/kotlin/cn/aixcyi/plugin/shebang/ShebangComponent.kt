@@ -34,8 +34,14 @@ class ShebangComponent {
             val shebang = ShebangWrapper(string)
             if (shebang.isBlank())
                 return@setAddAction
-            shebangModel.add(shebang.data)
-            shebangList.selectionModel.leadSelectionIndex = shebangModel.size - 1
+
+            val index = shebangModel.getElementIndex(shebang.data)
+            if (index > -1) {
+                shebangList.selectionModel.leadSelectionIndex = index
+            } else if (shebang.data.isNotBlank()) {
+                shebangModel.add(shebang.data)
+                shebangList.selectionModel.leadSelectionIndex = shebangModel.size - 1
+            }
         }
         .setEditAction {
             val string = Messages.showInputDialog(
