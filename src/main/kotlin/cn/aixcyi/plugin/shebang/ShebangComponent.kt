@@ -104,8 +104,13 @@ class ShebangComponent {
             DumbAwareAction(message("action.EditShebangList.text"), null, AllIcons.Actions.EditScheme) {
             override fun actionPerformed(e: AnActionEvent) {
                 MultilineInputDialog()
-                    .apply { title = message("action.EditShebangList.text") }
-                    .apply { content = shebangModel.toList().joinToString("\n", postfix = "\n") }
+                    .apply {
+                        title = message("action.EditShebangList.text")
+                        shebangModel.toList().let {
+                            if (it.isNotEmpty())
+                                content = it.joinToString("\n", postfix = "\n")
+                        }
+                    }
                     .showThenGet()
                     ?.let { result ->
                         shebangModel.replaceAll(result.split("\n").filter { it.isNotBlank() }.distinct())
