@@ -9,8 +9,10 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.impl.ActionButton
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.util.text.TextWithMnemonic
+import com.intellij.ui.CollectionListModel
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.ToolbarDecorator
+import com.intellij.ui.components.JBList
 import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.Row
 import javax.swing.*
@@ -197,4 +199,64 @@ fun Row.anActionsButton(
     return this::class.functions
         .first { it.name == "actionsButton" }
         .call(this, actions, actionPlace, icon) as Cell<ActionButton>
+}
+
+/** 检查所有选中项是否在顶部连续排列。没有选中任何条目也会返回 `true` 。 */
+fun JBList<*>.isAllSelectionsOnTop(): Boolean {
+    return this.selectionModel.selectedIndices.let { indices ->
+        indices.isEmpty() || indices.withIndex().all { it.index == it.value }
+    }
+}
+
+/** 检查所有选中项是否在底部连续排列。没有选中任何条目也会返回 `true` 。 */
+fun JBList<*>.isAllSelectionsOnBottom(): Boolean {
+    return this.selectionModel.selectedIndices.let { indices ->
+        indices.isEmpty()
+                || indices.last() == this.itemsCount - 1
+                && indices.last() - indices.first() == indices.size - 1
+    }
+}
+
+/** 将选中项移到列表顶部。若没有选中任何条目，将不会执行任何操作。仅面向 [CollectionListModel] 。 */
+fun <T : Comparable<T>> JBList<T>.moveSelectionsToTop() {
+    val indices = selectionModel.selectedIndices
+    if (indices.isEmpty())
+        return
+
+    // 替换列表
+    val model = this.model as CollectionListModel
+    // @formatter:off
+    model.replaceAll(model.toList().withIndex().let { list -> (
+            list.filter { it.index in indices }.map { it.value }
+            + list.filterNot { it.index in indices }.map { it.value }
+    )})
+    // @formatter:on
+
+    // 选中顶部
+    selectionModel.setSelectionInterval(
+        0,
+        indices.size - 1,
+    )
+}
+
+/** 将选中项移到列表底部。若没有选中任何条目，将不会执行任何操作。仅面向 [CollectionListModel] 。 */
+fun <T : Comparable<T>> JBList<T>.moveSelectionsToBottom() {
+    val indices = selectionModel.selectedIndices
+    if (indices.isEmpty())
+        return
+
+    // 替换列表
+    val model = this.model as CollectionListModel
+    // @formatter:off
+    model.replaceAll(model.toList().withIndex().let { list -> (
+            list.filterNot { it.index in indices }.map { it.value }
+            + list.filter { it.index in indices }.map { it.value }
+    )})
+    // @formatter:on
+
+    // 选中顶部
+    selectionModel.setSelectionInterval(
+        itemsCount - indices.size,
+        itemsCount - 1,
+    )
 }

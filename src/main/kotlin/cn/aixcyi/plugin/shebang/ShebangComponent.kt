@@ -65,33 +65,27 @@ class ShebangComponent {
             shebangList.selectionModel.leadSelectionIndex = shebangList.leadSelectionIndex
         }
         .putExtraAction(object : DumbAwareAction(message("action.MoveToTop.text"), null, AllIcons.Actions.Upload) {
+
+            override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+            override fun update(e: AnActionEvent) {
+                e.presentation.isEnabled = !shebangList.isAllSelectionsOnTop()
+            }
+
             override fun actionPerformed(e: AnActionEvent) {
-                val indices = shebangList.selectionModel.selectedIndices
-                if (indices.isEmpty())
-                    return
-                shebangModel.replaceAll(shebangModel.toList().withIndex().let { list ->
-                    list.filter { it.index in indices }.map { it.value } +
-                            list.filterNot { it.index in indices }.map { it.value }
-                })
-                shebangList.selectionModel.addSelectionInterval(
-                    0,
-                    indices.size - 1,
-                )
+                shebangList.moveSelectionsToTop()
             }
         })
         .putExtraAction(object : DumbAwareAction(message("action.MoveToBottom.text"), null, AllIcons.Actions.Download) {
+
+            override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+            override fun update(e: AnActionEvent) {
+                e.presentation.isEnabled = !shebangList.isAllSelectionsOnBottom()
+            }
+
             override fun actionPerformed(e: AnActionEvent) {
-                val indices = shebangList.selectionModel.selectedIndices
-                if (indices.isEmpty())
-                    return
-                shebangModel.replaceAll(shebangModel.toList().withIndex().let { list ->
-                    list.filterNot { it.index in indices }.map { it.value } +
-                            list.filter { it.index in indices }.map { it.value }
-                })
-                shebangList.selectionModel.addSelectionInterval(
-                    shebangList.itemsCount - indices.size,
-                    shebangList.itemsCount - 1,
-                )
+                shebangList.moveSelectionsToBottom()
             }
         })
         .putExtraAction(object : DumbAwareAction(message("action.Sorting.text"), null, AllIcons.ObjectBrowser.Sorted) {
