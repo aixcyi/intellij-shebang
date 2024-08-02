@@ -3,11 +3,13 @@
 ## v1.2.0
 
 1. 设置界面添加「还原为默认值」按钮。  
-   Add a _"Restore to default"_ button to Shebang settings.
+   Add a _"Restore to default"_ button to Shebang list in plugin setting.
 2. 空白的或已有的 Shebang 不会添加到预设列表。  
    Addition will be stop if Shebang is existed or blank.
 3. Shebang 预设列表添加置顶、置底、排序、编辑全表的按钮。  
-   Add buttons _Move to top_, _Move to bottom_, _Sort_, _Edit list_ for Shebang list in setting.
+   Add buttons _Move to top_, _Move to bottom_, _Sort_, _Edit list_ for Shebang list in plugin setting.
+4. 允许格式化后缀表达式。  
+   Support reformatting for file suffix expression in plugin setting.
 
 ## v1.1.0
 

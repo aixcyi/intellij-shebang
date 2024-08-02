@@ -4,6 +4,7 @@ import cn.aixcyi.plugin.shebang.Zoo.message
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
@@ -147,19 +148,40 @@ class ShebangComponent {
                     font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
                 }
                 .component
-            anActionsButton(object :
-                DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
+            anActionsButton(
+                object :
+                    DumbAwareAction(message("action.ReformatSuffixes.text")) {
 
-                override fun getActionUpdateThread() = ActionUpdateThread.EDT
+                    override fun getActionUpdateThread() = ActionUpdateThread.EDT
 
-                override fun update(e: AnActionEvent) {
-                    e.presentation.isEnabled = suffixField.text != ShebangSettings.PRESET_FILE_SUFFIXES
+                    override fun update(e: AnActionEvent) {
+                        e.presentation.isEnabled = suffixField.text.isNotBlank()
+                    }
+
+                    override fun actionPerformed(e: AnActionEvent) {
+                        suffixField.text = suffixField.text
+                            .split(ShebangSettings.DELIMITER)
+                            .filter { it.isNotBlank() }
+                            .distinct()
+                            .sorted()
+                            .joinToString(ShebangSettings.DELIMITER)
+                    }
+                },
+                Separator.create(),
+                object :
+                    DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
+
+                    override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+                    override fun update(e: AnActionEvent) {
+                        e.presentation.isEnabled = suffixField.text != ShebangSettings.PRESET_FILE_SUFFIXES
+                    }
+
+                    override fun actionPerformed(e: AnActionEvent) {
+                        suffixField.text = ShebangSettings.PRESET_FILE_SUFFIXES
+                    }
                 }
-
-                override fun actionPerformed(e: AnActionEvent) {
-                    suffixField.text = ShebangSettings.PRESET_FILE_SUFFIXES
-                }
-            })
+            )
         }
         row {
             resizableRow()
