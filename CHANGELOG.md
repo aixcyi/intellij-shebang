@@ -6,6 +6,8 @@
    Add a _"Restore to default"_ button to Shebang settings.
 2. 空白的或已有的 Shebang 不会添加到预设列表。  
    Addition will be stop if Shebang is existed or blank.
+3. 添加可以编辑整个 Shebang 预设列表的按钮。  
+   Add a button into setting that allow you to edit full Shebang list.
 
 ## v1.1.0
 

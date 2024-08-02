@@ -17,6 +17,11 @@ import com.intellij.ui.dsl.builder.panel
 import net.aixcyi.utils.*
 import java.awt.Font
 
+/**
+ * 插件设置页面的组件。
+ *
+ * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ */
 class ShebangComponent {
 
     private val state = ShebangSettings.getInstance().state
@@ -59,6 +64,18 @@ class ShebangComponent {
             shebangModel.remove(shebangList.selectedIndex)
             shebangList.selectionModel.leadSelectionIndex = shebangList.leadSelectionIndex
         }
+        .putExtraAction(object :
+            DumbAwareAction(message("action.EditShebangList.text"), null, AllIcons.Actions.EditScheme) {
+            override fun actionPerformed(e: AnActionEvent) {
+                MultilineInputDialog()
+                    .apply { title = message("action.EditShebangList.text") }
+                    .apply { content = shebangModel.toList().joinToString("\n", postfix = "\n") }
+                    .showThenGet()
+                    ?.let { result ->
+                        shebangModel.replaceAll(result.split("\n").filter { it.isNotBlank() }.distinct())
+                    }
+            }
+        })
         .putExtraAction(object :
             DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
 
