@@ -64,6 +64,48 @@ class ShebangComponent {
             shebangModel.remove(shebangList.selectedIndex)
             shebangList.selectionModel.leadSelectionIndex = shebangList.leadSelectionIndex
         }
+        .putExtraAction(object : DumbAwareAction(message("action.MoveToTop.text"), null, AllIcons.Actions.Upload) {
+            override fun actionPerformed(e: AnActionEvent) {
+                val indices = shebangList.selectionModel.selectedIndices
+                if (indices.isEmpty())
+                    return
+                shebangModel.replaceAll(shebangModel.toList().withIndex().let { list ->
+                    list.filter { it.index in indices }.map { it.value } +
+                            list.filterNot { it.index in indices }.map { it.value }
+                })
+                shebangList.selectionModel.addSelectionInterval(
+                    0,
+                    indices.size - 1,
+                )
+            }
+        })
+        .putExtraAction(object : DumbAwareAction(message("action.MoveToBottom.text"), null, AllIcons.Actions.Download) {
+            override fun actionPerformed(e: AnActionEvent) {
+                val indices = shebangList.selectionModel.selectedIndices
+                if (indices.isEmpty())
+                    return
+                shebangModel.replaceAll(shebangModel.toList().withIndex().let { list ->
+                    list.filterNot { it.index in indices }.map { it.value } +
+                            list.filter { it.index in indices }.map { it.value }
+                })
+                shebangList.selectionModel.addSelectionInterval(
+                    shebangList.itemsCount - indices.size,
+                    shebangList.itemsCount - 1,
+                )
+            }
+        })
+        .putExtraAction(object : DumbAwareAction(message("action.Sorting.text"), null, AllIcons.ObjectBrowser.Sorted) {
+
+            private var desc = false
+
+            override fun actionPerformed(e: AnActionEvent) {
+                if (desc)
+                    shebangModel.replaceAll(shebangModel.toList().sortedDescending())
+                else
+                    shebangModel.replaceAll(shebangModel.toList().sorted())
+                desc = !desc
+            }
+        })
         .putExtraAction(object :
             DumbAwareAction(message("action.EditShebangList.text"), null, AllIcons.Actions.EditScheme) {
             override fun actionPerformed(e: AnActionEvent) {
