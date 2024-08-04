@@ -59,9 +59,9 @@ class InsertShebangAction : DumbAwareAction() {
         }
 
         val existedShebang = ShebangWrapper(eval { file.firstChild as PsiComment }?.text).data
-        val state = ShebangSettings.getInstance().state
+        val settings = ShebangSettings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
-        for (text in state.myShebangs) {
+        for (text in settings.myShebangs) {
             group.add(object : AnAction(text) {
                 override fun actionPerformed(e: AnActionEvent) {
                     writeShebang(file, editor, ShebangWrapper(text))

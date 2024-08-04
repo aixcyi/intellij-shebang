@@ -25,8 +25,8 @@ import java.awt.Font
  */
 class ShebangComponent {
 
-    private val state = ShebangSettings.getInstance().state
-    private val shebangModel = CollectionListModel(state.myShebangs)
+    private val settings = ShebangSettings.getInstance().state
+    private val shebangModel = CollectionListModel(settings.myShebangs)
     private val shebangList = JBList(shebangModel)
     private val toolbarList = ToolbarDecorator
         .createDecorator(shebangList)
@@ -141,7 +141,7 @@ class ShebangComponent {
                 .resizableColumn()
                 .align(AlignX.FILL)
                 .gap(RightGap.SMALL)
-                .bindText(state::myFileSuffixes)
+                .bindText(settings::myFileSuffixes)
                 .applyToComponent {
                     val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
                     val fontFamily = preferences.fontFamily
@@ -189,13 +189,13 @@ class ShebangComponent {
                 .label(message("label.PresetShebangList.text"), LabelPosition.TOP)
                 .align(AlignX.FILL, AlignY.FILL)
                 .onIsModified {
-                    state.myShebangs != shebangModel.toList()
+                    settings.myShebangs != shebangModel.toList()
                 }
                 .onApply {
-                    state.myShebangs = shebangModel.toList()
+                    settings.myShebangs = shebangModel.toList()
                 }
                 .onReset {
-                    shebangModel.replaceAll(state.myShebangs)
+                    shebangModel.replaceAll(settings.myShebangs)
                 }
         }
     }
