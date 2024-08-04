@@ -133,7 +133,7 @@ class ShebangComponent {
         })
         .createPanel()
 
-    val panel = panel {
+    val rootPanel = panel {
         row {
             val suffixField = textField()
                 .label(message("label.SupportSuffixes.text"))
@@ -198,5 +198,15 @@ class ShebangComponent {
                     shebangModel.replaceAll(settings.myShebangs)
                 }
         }
+    }
+
+    fun isModified() = rootPanel.isModified()
+
+    fun apply() {
+        rootPanel.apply()
+    }
+
+    fun reset() {
+        rootPanel.reset()
     }
 }

@@ -23,7 +23,7 @@ class ShebangConfigurable : SearchableConfigurable {
 
     override fun createComponent(): JComponent {
         component = ShebangComponent()
-        return component!!.panel
+        return component!!.rootPanel
     }
 
     override fun enableSearch(option: String?): Runnable? {
@@ -31,14 +31,14 @@ class ShebangConfigurable : SearchableConfigurable {
         return null
     }
 
-    override fun isModified() = component?.panel?.isModified() ?: false
+    override fun isModified() = component?.isModified() ?: false
 
     override fun apply() {
-        component?.panel?.apply()
+        component?.apply()
     }
 
     override fun reset() {
-        component?.panel?.reset()
+        component?.reset()
     }
 
     override fun disposeUIResources() {
