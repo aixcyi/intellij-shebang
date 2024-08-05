@@ -11,7 +11,7 @@
 4. 允许格式化后缀表达式。  
    Support reformatting for file suffix expression in plugin setting.
 5. 默认语言改为英语。  
-   Change default nature language to English.
+   Change fallback nature language to English.
 
 ## v1.1.0
 

@@ -38,7 +38,7 @@ class InsertShebangAction : DumbAwareAction() {
             event.presentation.isEnabled = false
             return
         }
-        val suffixes = ShebangSettings.getInstance().state.getFileSuffixes()
+        val suffixes = ShebangSettings.getInstance().state.myFileSuffixes.split(ShebangSettings.DELIMITER)
         if (suffixes.isEmpty()) {
             event.presentation.isEnabled = true
             return

@@ -41,7 +41,5 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
     class State : BaseState() {
         var myShebangs by property(PRESET_SHEBANGS) { it == PRESET_SHEBANGS }
         var myFileSuffixes by property(PRESET_FILE_SUFFIXES) { it == PRESET_FILE_SUFFIXES }
-
-        fun getFileSuffixes() = myFileSuffixes.split(DELIMITER)
     }
 }
