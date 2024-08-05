@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.shebang
 
-import cn.aixcyi.plugin.shebang.Zoo.message
+import cn.aixcyi.plugin.shebang.I18nProvider.message
 import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent
 

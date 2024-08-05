@@ -1,6 +1,6 @@
 package cn.aixcyi.plugin.shebang
 
-import cn.aixcyi.plugin.shebang.Zoo.message
+import cn.aixcyi.plugin.shebang.I18nProvider.message
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction

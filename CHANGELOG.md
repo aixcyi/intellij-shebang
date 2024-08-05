@@ -10,6 +10,8 @@
    Add buttons _Move to top_, _Move to bottom_, _Sort_, _Edit list_ for Shebang list in plugin setting.
 4. 允许格式化后缀表达式。  
    Support reformatting for file suffix expression in plugin setting.
+5. 默认语言改为英语。  
+   Change default nature language to English.
 
 ## v1.1.0
 
