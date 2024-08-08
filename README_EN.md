@@ -1,28 +1,23 @@
-![Popup](./images/menu_generation_en.png)
+![Popup](./images/diagram_en.png)
 
 # HooTool - Shebang
 
-[中文](./README.md)／[English](./README_EN.md)／...
+[简体中文](./README.md)／[English](./README_EN.md)／...
 
-An IntelliJ-based IDE plugin, allow you insert a preset Shebang into file head quickly.
+An IntelliJ-based IDE plugin, provides [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) insertion and management.
+
+## Features
+
+- Insert a preset Shebang into file head, menu: _Code_ → _Generate..._ → _Shebang..._
+- Configure preset Shebangs, menu: _File_ → _Settings..._ → _Tools_ → _Shebang_
 
 ## Compatibility
 
-- IntelliJ-based IDE version from 2022.2 to 2024.1
+- IntelliJ-based IDE version, see [Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions)
+  for detail
 - DevEco Studio NEXT Developer Beta1
+- _Not tested on other platforms._
 
-_Not tested on other platforms._
+## Links
 
-## Usage
-
-Insert a Shebang into file head:
-
-- Menu: Code → Generate... → Shebang
-
-Configure all preset Shebangs:
-
-- Menu: File → Settings... → Tools → Shebang
-
-## Bug Tracking
-
-- [GitHub issue](https://github.com/aixcyi/intellij-shebang/issues)
+- [Issue Tracker \(GitHub\)](https://github.com/aixcyi/intellij-shebang/issues)
