@@ -2,6 +2,7 @@ package cn.aixcyi.plugin.shebang
 
 import cn.aixcyi.plugin.shebang.I18nProvider.message
 import com.intellij.codeInsight.hint.HintManager
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
@@ -62,11 +63,18 @@ class InsertShebangAction : DumbAwareAction() {
         val settings = ShebangSettings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
         for (text in settings.myShebangs) {
-            group.add(object : AnAction(text) {
-                override fun actionPerformed(e: AnActionEvent) {
-                    writeShebang(project, editor, existedShebang, Shebang(text))
-                }
-            })
+            if (text == existedShebang?.data)
+                group.add(object : AnAction(text, "", AllIcons.Actions.Forward) {
+                    override fun actionPerformed(e: AnActionEvent) {
+                        writeShebang(project, editor, existedShebang, Shebang(text))
+                    }
+                })
+            else
+                group.add(object : AnAction(text) {
+                    override fun actionPerformed(e: AnActionEvent) {
+                        writeShebang(project, editor, existedShebang, Shebang(text))
+                    }
+                })
         }
         group.addSeparator()
         group.add(object : AnAction(message("action.Shebang.Insert.FromRelativePath.text")) {
@@ -121,8 +129,6 @@ class InsertShebangAction : DumbAwareAction() {
             true,
             null,
             -1,
-            { action -> action.templatePresentation.text == existedShebang?.text },
-            null,
         )
         popup.showCenteredInCurrentWindow(project)
     }
