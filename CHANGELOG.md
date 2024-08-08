@@ -4,6 +4,8 @@
 
 1. 兼容 2024.2 版本。  
    Compatible with version 2024.2 .
+2. 修复部分情况下无法替换既有 Shebang 的问题。  
+   Fixed an issue where sometimes existing Shebang could not be replaced.
 
 ## v1.2.0
 

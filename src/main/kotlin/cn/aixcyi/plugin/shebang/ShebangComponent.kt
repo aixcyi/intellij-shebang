@@ -36,7 +36,7 @@ class ShebangComponent {
                 message("dialog.PresetShebang.NewOrEdit.title"),
                 null
             )
-            val shebang = ShebangWrapper(string)
+            val shebang = Shebang(string)
             if (shebang.isBlank())
                 return@setAddAction
 
@@ -56,7 +56,7 @@ class ShebangComponent {
                 shebangModel.getElementAt(shebangList.selectedIndex),
                 null
             )
-            val shebang = ShebangWrapper(string)
+            val shebang = Shebang(string)
             if (shebang.isBlank())
                 return@setEditAction
             shebangModel.setElementAt(shebang.data, shebangList.selectedIndex)
