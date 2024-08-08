@@ -1,7 +1,6 @@
 package cn.aixcyi.plugin.shebang
 
 import com.intellij.DynamicBundle
-import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.PropertyKey
 import java.util.function.Supplier
 
@@ -13,20 +12,18 @@ import java.util.function.Supplier
  *
  * @author <a href="https://github.com/aixcyi/">砹小翼</a>
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
+@Suppress("unused")
 object I18nProvider {
 
     private val BUNDLE = DynamicBundle(Zoo::class.java, Zoo.BUNDLE_NAME)
 
     @JvmStatic
-    fun message(key: @PropertyKey(resourceBundle = Zoo.BUNDLE_NAME) String, vararg params: Any): @Nls String {
+    fun message(@PropertyKey(resourceBundle = Zoo.BUNDLE_NAME) key: String, vararg params: Any): String {
         return BUNDLE.getMessage(key, *params)
     }
 
-    // @formatter:off
     @JvmStatic
-    fun lazyMessage(@PropertyKey(resourceBundle = Zoo.BUNDLE_NAME) key: String, vararg params: Any): Supplier<@Nls String> {
+    fun lazyMessage(@PropertyKey(resourceBundle = Zoo.BUNDLE_NAME) key: String, vararg params: Any): Supplier<String> {
         return BUNDLE.getLazyMessage(key, *params)
     }
-    // @formatter:on
 }
