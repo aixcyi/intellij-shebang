@@ -1,4 +1,4 @@
-![Popup](./images/diagram_en.png)
+[![Diagram](./images/diagram_en.png)](https://plugins.jetbrains.com/plugin/24907-hootool--shebang)
 
 # HooTool - Shebang
 
@@ -13,11 +13,12 @@ An IntelliJ-based IDE plugin, provides [Shebang](https://en.wikipedia.org/wiki/S
 
 ## Compatibility
 
-- IntelliJ-based IDE version, see [Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions)
-  for detail
+- IntelliJ-based IDE version, both Community and Professional Edition,
+  see [Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions) for detail
 - DevEco Studio NEXT Developer Beta1
-- _Not tested on other platforms._
+- _Not tested on other platforms_
 
 ## Links
 
+- [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang)
 - [Issue Tracker \(GitHub\)](https://github.com/aixcyi/intellij-shebang/issues)

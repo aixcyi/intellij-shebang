@@ -1,4 +1,4 @@
-![示意图](./images/diagram.png)
+[![示意图](./images/diagram.png)](https://plugins.jetbrains.com/plugin/24907-hootool--shebang)
 
 # HooTool - Shebang
 
@@ -13,11 +13,12 @@
 
 ## 兼容性
 
-- 基于 IntelliJ 的 IDE（详见[插件市场](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions)）
+- 基于 IntelliJ 的 IDE（详见[插件市场](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions)），包括社区版及专业版
 - DevEco Studio NEXT Developer Beta1
 - _未对其它平台进行测试_
 
 ## 链接
 
+- [插件市场](https://plugins.jetbrains.com/plugin/24907-hootool--shebang)
 - [问题与反馈（GitHub）](https://github.com/aixcyi/intellij-shebang/issues)
 - [QQ群 418751161](https://qm.qq.com/q/ou4RdUFMTm)
