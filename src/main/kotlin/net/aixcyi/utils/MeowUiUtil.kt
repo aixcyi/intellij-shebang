@@ -21,7 +21,7 @@ import kotlin.reflect.full.functions
 /**
  * 图形界面相关工具。
  *
- * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ * @author <a href="https://github.com/aixcyi/">砹小翼</a>
  */
 data object MeowUiUtil {
     val LOGGER = thisLogger()
@@ -60,7 +60,7 @@ data object MeowUiUtil {
 /**
  * 自动解析 Kotlin UI DSL [Cell] 包装的组件的文本，并设置助记键。
  *
- * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ * @author <a href="https://github.com/aixcyi/">砹小翼</a>
  */
 fun <T : JComponent> Cell<T>.mnemonic(): Cell<T> {
     when (val component = this.component) {
@@ -174,7 +174,7 @@ fun ToolbarDecorator.putExtraAction(action: AnAction): ToolbarDecorator {
  * - 兼容 213.5281+ 的 `com.intellij.ui.dsl.builder.Row.actionsButton()`
  * - 兼容更旧的版本。
  */
-fun Row.anActionButton(action: AnAction, actionPlace: String): Cell<ActionButton> {
+fun Row.anActionButton(action: AnAction, actionPlace: String = ActionPlaces.UNKNOWN): Cell<ActionButton> {
     val component = ActionButton(
         action,
         action.templatePresentation.clone(),

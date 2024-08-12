@@ -32,7 +32,7 @@ import javax.swing.ScrollPaneConstants
  *
  * 注意：Enter 键已被绑定到确认保存，换行需要按下 Shift+Enter 键。
  *
- * @author <a href="https://github.com/aixcyi">砹小翼</a>
+ * @author <a href="https://github.com/aixcyi/">砹小翼</a>
  */
 class MultilineInputDialog : DialogWrapper(true) {
 
