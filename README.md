@@ -6,6 +6,8 @@
 
 一个基于 IntelliJ IDE 的插件，提供了预置 [Shebang](https://www.runoob.com/linux/linux-shell.html) 的插入和管理。
 
+> shebang 也叫 sharp-exclamation、sha-bang、hashbang、pound-bang、hash-pling 。
+
 ## 功能
 
 - 在文件头部插入预设的 Shebang，菜单：代码 → 生成... → Shebang...

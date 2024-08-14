@@ -6,6 +6,8 @@
 
 An IntelliJ-based IDE plugin, provides [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) insertion and management.
 
+> Shebang, also called sharp-exclamation, sha-bang, hashbang, pound-bang, or hash-pling.
+
 ## Features
 
 - Insert a preset Shebang into file head, menu: _Code_ → _Generate..._ → _Shebang..._
