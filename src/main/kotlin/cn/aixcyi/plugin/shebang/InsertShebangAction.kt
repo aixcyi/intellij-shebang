@@ -8,6 +8,7 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
@@ -37,12 +38,24 @@ class InsertShebangAction : DumbAwareAction() {
             event.presentation.isEnabled = false
             return
         }
-        val suffixes = ShebangSettings.getInstance().state.myFileSuffixes.split(ShebangSettings.DELIMITER)
-        if (suffixes.isEmpty()) {
-            event.presentation.isEnabled = true
+        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE)
+        if (editor == null) {
+            event.presentation.isEnabled = false
             return
         }
-        event.presentation.isEnabled = Path(file.name).extension in suffixes
+        val settings = ShebangSettings.getInstance().state
+        val fileType = FileTypeManager.getInstance().getFileTypeByFile(file.virtualFile)
+        val suffixes = settings.myFileSuffixes.split(ShebangSettings.DELIMITER)
+
+        event.presentation.isEnabled = run {
+            if (fileType.javaClass.name == ShebangSettings.FILETYPE_SHELL_SCRIPT)
+                return@run true
+            if (suffixes.isEmpty() || Path(file.name).extension in suffixes)
+                return@run true
+            if (editor.getShebang() != null)
+                return@run true
+            false
+        }
     }
 
     override fun actionPerformed(event: AnActionEvent) {
@@ -56,10 +69,7 @@ class InsertShebangAction : DumbAwareAction() {
             HintManager.getInstance().showErrorHint(editor, message("hint.EditorIsNotWritable.text"))
             return
         }
-
-        val firstLineText = editor.document.getText(TextRange(0, editor.document.getLineEndOffset(0)))
-        val existedShebang = Shebang(firstLineText).takeIf { it.isFromValidString }
-
+        val existedShebang = editor.getShebang()
         val settings = ShebangSettings.getInstance().state
         val group = DefaultActionGroup(null as String?, true)
         for (text in settings.myShebangs) {
@@ -163,5 +173,10 @@ class InsertShebangAction : DumbAwareAction() {
             null,
             runnable
         )
+    }
+
+    private fun Editor.getShebang(): Shebang? {
+        val firstLineOffsetRange = TextRange(0, document.getLineEndOffset(0))
+        return Shebang(document.getText(firstLineOffsetRange)).takeIf { it.isFromValidString }
     }
 }

@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.3.0"  // https://semver.org/lang/zh-CN/
+version = "1.4.0-SNAPSHOT"  // https://semver.org/lang/zh-CN/
 
 repositories {
     mavenLocal()
@@ -59,6 +59,9 @@ tasks {
                 Changelog.OutputType.HTML
             )
         })
+    }
+    downloadZipSigner {
+        cli = file("./marketplace-zip-signer-cli.jar")
     }
     signPlugin {
         certificateChainFile.set(file("./.secret/chain.crt"))

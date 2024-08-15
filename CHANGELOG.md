@@ -1,5 +1,10 @@
 # 更新日志／Changelog
 
+## v1.4.0-SNAPSHOT
+
+1. 修复不能在无后缀 Shell 脚本中显示菜单项的问题。  
+   Fixed an issue where the menu could not be displayed in Shell scripts without suffix.
+
 ## v1.3.0
 
 1. 兼容 2024.2 版本。  

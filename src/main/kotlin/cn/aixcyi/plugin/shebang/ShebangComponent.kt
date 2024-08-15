@@ -6,12 +6,13 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.editor.colors.EditorColorsManager
+import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.CollectionListModel
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
-import com.intellij.ui.dsl.builder.LabelPosition
+import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.RightGap
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
@@ -26,6 +27,7 @@ import java.awt.Font
 class ShebangComponent {
 
     private val settings = ShebangSettings.getInstance().state
+    private val fileTypeList = FileTypeManager.getInstance().registeredFileTypes.map { it.javaClass.name }
     private val shebangModel = CollectionListModel(settings.myShebangs)
     private val shebangList = JBList(shebangModel)
     private val toolbarList = ToolbarDecorator
@@ -133,11 +135,10 @@ class ShebangComponent {
         })
         .createPanel()
 
-    val rootPanel = panel {
+    private val associationTab = panel {
         row {
             val suffixField = textField()
-                .label(message("label.SupportSuffixes.text"))
-                .comment(message("label.SupportSuffixes.comment"))
+                .comment(message("label.SupportSuffixes.text"))
                 .resizableColumn()
                 .align(AlignX.FILL)
                 .gap(RightGap.SMALL)
@@ -184,9 +185,16 @@ class ShebangComponent {
             )
         }
         row {
+            if (isNotSupportShellScript()) {
+                text(message("label.ShellScriptUnsupported.text"))
+            }
+        }
+    }
+
+    private val shebangsTab = panel {
+        row {
             resizableRow()
             cell(toolbarList)
-                .label(message("label.PresetShebangList.text"), LabelPosition.TOP)
                 .align(AlignX.FILL, AlignY.FILL)
                 .onIsModified {
                     settings.myShebangs != shebangModel.toList()
@@ -200,13 +208,24 @@ class ShebangComponent {
         }
     }
 
-    fun isModified() = rootPanel.isModified()
+    val rootPanel = JBTabbedPane().apply {
+        addTab(message("tab.PresetShebangList.title"), shebangsTab)
+        addTab(message("tab.FileAssociation.title"), associationTab)
+    }
+
+    fun isModified() = shebangsTab.isModified() || associationTab.isModified()
 
     fun apply() {
-        rootPanel.apply()
+        shebangsTab.apply()
+        associationTab.apply()
     }
 
     fun reset() {
-        rootPanel.reset()
+        shebangsTab.reset()
+        associationTab.reset()
+    }
+
+    private fun isNotSupportShellScript(): Boolean {
+        return ShebangSettings.FILETYPE_SHELL_SCRIPT !in this.fileTypeList
     }
 }

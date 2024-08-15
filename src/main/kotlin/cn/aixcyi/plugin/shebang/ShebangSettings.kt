@@ -12,8 +12,6 @@ import com.intellij.openapi.components.*
 class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(State()) {
 
     companion object {
-        const val DELIMITER = "|"
-        const val PRESET_FILE_SUFFIXES = "bash|sh|zsh|py|pl|java|groovy|gy|gant"
 
         /**
          * 插件预置的所有 shebang。
@@ -34,6 +32,10 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
             "/usr/local/bin/ruby",
             "./venv/Scripts/python.exe",
         )
+
+        const val DELIMITER = "|"
+        const val PRESET_FILE_SUFFIXES = "bash|sh|zsh|py|pl|pm|rb"
+        const val FILETYPE_SHELL_SCRIPT = "com.intellij.sh.ShFileType"
 
         fun getInstance() = service<ShebangSettings>()
     }
