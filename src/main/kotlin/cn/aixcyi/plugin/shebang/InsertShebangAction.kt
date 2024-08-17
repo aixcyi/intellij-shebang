@@ -74,43 +74,44 @@ class InsertShebangAction : DumbAwareAction() {
         val group = DefaultActionGroup(null as String?, true)
         for (text in settings.myShebangs) {
             if (text == existedShebang?.data)
-                group.add(object : AnAction(text, "", AllIcons.Actions.Forward) {
+                group.add(object : DumbAwareAction(text, "", AllIcons.Actions.Forward) {
                     override fun actionPerformed(e: AnActionEvent) {
                         writeShebang(project, editor, existedShebang, Shebang(text))
                     }
                 })
             else
-                group.add(object : AnAction(text) {
+                group.add(object : DumbAwareAction(text) {
                     override fun actionPerformed(e: AnActionEvent) {
                         writeShebang(project, editor, existedShebang, Shebang(text))
                     }
                 })
         }
         group.addSeparator()
-        group.add(object : AnAction(message("action.Shebang.Insert.FromRelativePath.text")) {
+        group.add(object : DumbAwareAction(message("action.Shebang.Insert.FromRelativePath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
+                // 创建一个起点为当前项目根目录的文件选择器
                 val profile = project.projectFile ?: return
                 val root = ProjectFileIndex.getInstance(project).getContentRootForFile(profile) ?: return
-
-                // 创建一个起点为当前项目根目录的文件选择器
-                val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor()
-                descriptor.title = e.presentation.text
-                descriptor.setRoots(root)
+                val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor().apply {
+                    title = e.presentation.text
+                    setRoots(root)
+                }
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
                 val path = eval { root.toNioPath().relativize(chosen.toNioPath()).toString() } ?: chosen.path
                 writeShebang(project, editor, existedShebang, Shebang(path))
             }
         })
-        group.add(object : AnAction(message("action.Shebang.Insert.FromAbsolutePath.text")) {
+        group.add(object : DumbAwareAction(message("action.Shebang.Insert.FromAbsolutePath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
-                val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor()
-                descriptor.title = e.presentation.text
-                descriptor.setRoots()
+                val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor().apply {
+                    title = e.presentation.text
+                    setRoots()
+                }
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
                 writeShebang(project, editor, existedShebang, Shebang(chosen.path))
             }
         })
-        group.add(object : AnAction(message("action.Shebang.Insert.FromAnyPath.text")) {
+        group.add(object : DumbAwareAction(message("action.Shebang.Insert.FromAnyPath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 val string = Messages.showInputDialog(
                     message("dialog.PresetShebang.NewOrEdit.message"),
@@ -123,7 +124,7 @@ class InsertShebangAction : DumbAwareAction() {
             }
         })
         group.addSeparator()
-        group.add(object : AnAction(message("action.GotoConfiguration.text")) {
+        group.add(object : DumbAwareAction(message("action.GotoConfiguration.text")) {
             override fun actionPerformed(e: AnActionEvent) {
                 ShowSettingsUtil.getInstance().showSettingsDialog(
                     event.project,

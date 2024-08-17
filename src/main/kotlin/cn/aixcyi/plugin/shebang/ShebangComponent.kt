@@ -30,8 +30,7 @@ class ShebangComponent {
     private val fileTypeList = FileTypeManager.getInstance().registeredFileTypes.map { it.javaClass.name }
     private val shebangModel = CollectionListModel(settings.myShebangs)
     private val shebangList = JBList(shebangModel)
-    private val toolbarList = ToolbarDecorator
-        .createDecorator(shebangList)
+    private val toolbarList = ToolbarDecorator.createDecorator(shebangList)
         .setAddAction {
             val string = Messages.showInputDialog(
                 message("dialog.PresetShebang.NewOrEdit.message"),
