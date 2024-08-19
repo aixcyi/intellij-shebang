@@ -1,9 +1,11 @@
 # 更新日志／Changelog
 
-## v1.4.0-SNAPSHOT
+## v1.4.0
 
 1. 修复不能在无后缀 Shell 脚本中显示菜单项的问题。  
    Fixed an issue where the menu could not be displayed in Shell scripts without suffix.
+2. 将相对路径规范为类 Unix 路径格式。  
+   Use Unix-like path format instead of systems when you insert a path base on project root.
 
 ## v1.3.0
 

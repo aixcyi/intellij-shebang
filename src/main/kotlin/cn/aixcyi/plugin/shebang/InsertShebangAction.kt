@@ -17,8 +17,7 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.ReadonlyStatusHandler
-import net.aixcyi.utils.eval
-import kotlin.io.path.Path
+import java.nio.file.Path
 import kotlin.io.path.extension
 
 /**
@@ -50,7 +49,7 @@ class InsertShebangAction : DumbAwareAction() {
         event.presentation.isEnabled = run {
             if (fileType.javaClass.name == ShebangSettings.FILETYPE_SHELL_SCRIPT)
                 return@run true
-            if (suffixes.isEmpty() || Path(file.name).extension in suffixes)
+            if (suffixes.isEmpty() || Path.of(file.name).extension in suffixes)
                 return@run true
             if (editor.getShebang() != null)
                 return@run true
@@ -89,7 +88,6 @@ class InsertShebangAction : DumbAwareAction() {
         group.addSeparator()
         group.add(object : DumbAwareAction(message("action.Shebang.Insert.FromRelativePath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
-                // 创建一个起点为当前项目根目录的文件选择器
                 val profile = project.projectFile ?: return
                 val root = ProjectFileIndex.getInstance(project).getContentRootForFile(profile) ?: return
                 val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor().apply {
@@ -97,7 +95,17 @@ class InsertShebangAction : DumbAwareAction() {
                     setRoots(root)
                 }
                 val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
-                val path = eval { root.toNioPath().relativize(chosen.toNioPath()).toString() } ?: chosen.path
+                val path = try {
+                    // venv\Scripts\python.exe -> ./venv/Scripts/python.exe
+                    val fp: Path = root.toNioPath().relativize(chosen.toNioPath())
+                    val sb = StringBuilder(".")
+                    for (i in 0 until fp.nameCount) {
+                        sb.append("/").append(fp.getName(i))
+                    }
+                    sb.toString()
+                } catch (e: Exception) {
+                    chosen.path
+                }
                 writeShebang(project, editor, existedShebang, Shebang(path))
             }
         })
