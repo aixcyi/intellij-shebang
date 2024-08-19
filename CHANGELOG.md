@@ -6,6 +6,8 @@
    Fixed an issue where the menu could not be displayed in Shell scripts without suffix.
 2. 将相对路径规范为类 Unix 路径格式。  
    Use Unix-like path format instead of systems when you insert a path base on project root.
+3. 格式化（设置中的）文件后缀时保留原始顺序。  
+   Keep input order when you reformat file suffixes on settings.
 
 ## v1.3.0
 

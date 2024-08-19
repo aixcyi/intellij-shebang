@@ -163,7 +163,6 @@ class ShebangComponent {
                             .split(ShebangSettings.DELIMITER)
                             .filter { it.isNotBlank() }
                             .distinct()
-                            .sorted()
                             .joinToString(ShebangSettings.DELIMITER)
                     }
                 },
@@ -183,8 +182,8 @@ class ShebangComponent {
                 }
             )
         }
-        row {
-            if (isNotSupportShellScript()) {
+        if (isNotSupportShellScript()) {
+            row {
                 text(message("label.ShellScriptUnsupported.text"))
             }
         }
