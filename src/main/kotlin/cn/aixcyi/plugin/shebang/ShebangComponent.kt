@@ -16,7 +16,11 @@ import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.RightGap
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
-import net.aixcyi.utils.*
+import net.aixcyi.shim.*
+import net.aixcyi.utils.MultilineInputDialog
+import net.aixcyi.utils.isAllSelectionsOnBottom
+import net.aixcyi.utils.moveSelectionsToBottom
+import net.aixcyi.utils.moveSelectionsToTop
 import java.awt.Font
 
 /**
