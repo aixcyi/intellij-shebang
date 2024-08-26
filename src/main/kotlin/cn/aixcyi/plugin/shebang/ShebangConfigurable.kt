@@ -4,6 +4,7 @@ import cn.aixcyi.plugin.shebang.I18nProvider.message
 import com.intellij.openapi.options.SearchableConfigurable
 import javax.swing.JComponent
 
+
 /**
  * 插件设置页面。
  *
@@ -27,7 +28,7 @@ class ShebangConfigurable : SearchableConfigurable {
     }
 
     override fun enableSearch(option: String?): Runnable? {
-        // TODO<FUTURE>: 实现搜索
+        // FUTURE: 实现搜索
         return null
     }
 

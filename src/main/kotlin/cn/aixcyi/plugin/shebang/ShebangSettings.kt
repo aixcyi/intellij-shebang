@@ -2,6 +2,7 @@ package cn.aixcyi.plugin.shebang
 
 import com.intellij.openapi.components.*
 
+
 /**
  * 插件设置。
  *
@@ -37,7 +38,7 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
         const val PRESET_FILE_SUFFIXES = "bash|sh|zsh|py|pl|pm|rb"
         const val FILETYPE_SHELL_SCRIPT = "com.intellij.sh.ShFileType"
 
-        fun getInstance() = service<ShebangSettings>()
+        fun getInstance(): ShebangSettings = service()
     }
 
     class State : BaseState() {

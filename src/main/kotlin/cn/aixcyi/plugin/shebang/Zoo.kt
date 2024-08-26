@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.shebang
 
+
 object Zoo {
     /**
      * 插件配置的全局存储位置。

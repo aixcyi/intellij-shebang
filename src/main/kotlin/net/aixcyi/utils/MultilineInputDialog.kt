@@ -16,6 +16,7 @@ import javax.swing.JComponent
 import javax.swing.KeyStroke
 import javax.swing.ScrollPaneConstants
 
+
 /**
  * 多行文本编辑对话框。
  *
@@ -93,7 +94,7 @@ class MultilineInputDialog : DialogWrapper(true) {
         }.registerCustomShortcutSet(
             CustomShortcutSet(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.SHIFT_DOWN_MASK)),
             root,
-            disposable
+            disposable,
         )
     }
 }

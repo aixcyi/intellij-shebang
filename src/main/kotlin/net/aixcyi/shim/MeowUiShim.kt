@@ -17,6 +17,7 @@ import javax.swing.Icon
 import javax.swing.JComponent
 import kotlin.reflect.full.functions
 
+
 /**
  * 同时设置 [Cell] 的横向及纵向对齐方式。
  */

@@ -23,6 +23,7 @@ import net.aixcyi.utils.moveSelectionsToBottom
 import net.aixcyi.utils.moveSelectionsToTop
 import java.awt.Font
 
+
 /**
  * 插件设置页面的组件。
  *
@@ -186,7 +187,7 @@ class ShebangComponent {
                 }
             )
         }
-        if (isNotSupportShellScript()) {
+        if (ShebangSettings.FILETYPE_SHELL_SCRIPT !in fileTypeList) {
             row {
                 text(message("label.ShellScriptUnsupported.text"))
             }
@@ -225,9 +226,5 @@ class ShebangComponent {
     fun reset() {
         shebangsTab.reset()
         associationTab.reset()
-    }
-
-    private fun isNotSupportShellScript(): Boolean {
-        return ShebangSettings.FILETYPE_SHELL_SCRIPT !in this.fileTypeList
     }
 }

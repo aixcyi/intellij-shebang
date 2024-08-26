@@ -18,8 +18,7 @@ repositories {
 // Gradle IntelliJ Plugin
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    type.set("PC")
-    version.set("2022.2.5")
+    version.set("PC-2022.2.5")
     plugins.set(listOf())
 }
 

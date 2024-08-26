@@ -10,6 +10,7 @@ import com.intellij.ui.components.JBList
 import com.intellij.ui.dsl.builder.Cell
 import javax.swing.*
 
+
 /**
  * 图形界面相关工具。
  *

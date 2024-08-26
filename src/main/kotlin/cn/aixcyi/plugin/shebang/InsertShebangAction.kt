@@ -20,6 +20,7 @@ import com.intellij.openapi.vfs.ReadonlyStatusHandler
 import java.nio.file.Path
 import kotlin.io.path.extension
 
+
 /**
  * 为文件添加 Shebang 。
  *
@@ -32,13 +33,11 @@ class InsertShebangAction : DumbAwareAction() {
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
     override fun update(event: AnActionEvent) {
-        val file = event.getData(CommonDataKeys.PSI_FILE)
-        if (file == null) {
+        val file = event.getData(CommonDataKeys.PSI_FILE) ?: run {
             event.presentation.isEnabled = false
             return
         }
-        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE)
-        if (editor == null) {
+        val editor = event.getData(LangDataKeys.EDITOR_EVEN_IF_INACTIVE) ?: run {
             event.presentation.isEnabled = false
             return
         }
@@ -156,26 +155,26 @@ class InsertShebangAction : DumbAwareAction() {
      * 将 shebang 写入到文件第一行。如果新旧 shebang 相同，则弹出提示。
      */
     private fun writeShebang(project: Project, editor: Editor, oldShebang: Shebang?, newShebang: Shebang) {
-        val hint = HintManager.getInstance()
-        val runnable =
-            when (oldShebang) {
-                null -> Runnable {
-                    editor.document.insertString(0, "${newShebang}\n")
-                }
-
-                newShebang -> {
-                    hint.showInformationHint(editor, message("hint.ShebangExisted.text"))
-                    return
-                }
-
-                else -> Runnable {
-                    editor.document.replaceString(
-                        0,
-                        editor.document.getLineEndOffset(0),
-                        newShebang.text
-                    )
-                }
+        val runnable = when (oldShebang) {
+            null -> Runnable {
+                editor.document.insertString(0, "${newShebang}\n")
             }
+
+            newShebang -> {
+                HintManager.getInstance().showInformationHint(
+                    editor, message("hint.ShebangExisted.text")
+                )
+                return
+            }
+
+            else -> Runnable {
+                editor.document.replaceString(
+                    0,
+                    editor.document.getLineEndOffset(0),
+                    newShebang.text
+                )
+            }
+        }
         WriteCommandAction.runWriteCommandAction(
             project,
             message("command.InsertShebang"),

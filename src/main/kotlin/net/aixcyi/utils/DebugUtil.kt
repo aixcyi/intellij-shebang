@@ -2,6 +2,7 @@
 
 package net.aixcyi.utils
 
+
 /** 获取 [obj] 的自述字符串。 */
 fun repr(obj: Any?): String {
     return when (obj) {

@@ -1,5 +1,6 @@
 package cn.aixcyi.plugin.shebang
 
+
 /**
  * _此类用于规范输入输出。_
  *
@@ -37,6 +38,7 @@ class Shebang(string: String?) {
     override fun toString(): String = text
 
     operator fun component1(): String = HEAD
+
     operator fun component2(): String = data
 
     override fun equals(other: Any?): Boolean =

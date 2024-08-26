@@ -4,6 +4,7 @@ package net.aixcyi.shim
 
 interface Alignment
 
+
 /**
  * 水平（横向）对齐方式。
  */
@@ -18,7 +19,7 @@ enum class AlignX : Alignment {
     RIGHT,
 
     /** 填充（满）水平方向。 */
-    FILL
+    FILL,
 }
 
 /**
@@ -35,5 +36,5 @@ enum class AlignY : Alignment {
     BOTTOM,
 
     /** 填充（满）垂直方向。 */
-    FILL
+    FILL,
 }

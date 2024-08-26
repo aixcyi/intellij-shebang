@@ -4,6 +4,7 @@ import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey
 import java.util.function.Supplier
 
+
 // Internationalization - IntelliJ Platform Plugin SDK
 // https://plugins.jetbrains.com/docs/intellij/internationalization.html
 
