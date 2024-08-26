@@ -1,5 +1,10 @@
 # 更新日志／Changelog
 
+## v1.4.1
+
+1. 添加“码云”上的问题追踪链接。  
+   Added issues tracker link which on Gitee.
+
 ## v1.4.0
 
 1. 修复不能在无后缀 Shell 脚本中显示菜单项的问题。  

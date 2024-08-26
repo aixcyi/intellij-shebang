@@ -6,7 +6,7 @@
 
 An IntelliJ-based IDE plugin, provides [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) insertion and management.
 
-> Shebang, also called sharp-exclamation, sha-bang, hashbang, pound-bang, or hash-pling.
+> Shebang, also called hashbang, sharp-exclamation, sha-bang, pound-bang, or hash-pling.
 
 ## Features
 
@@ -22,5 +22,6 @@ An IntelliJ-based IDE plugin, provides [Shebang](https://en.wikipedia.org/wiki/S
 
 ## Links
 
-- [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang)
-- [Issue Tracker \(GitHub\)](https://github.com/aixcyi/intellij-shebang/issues)
+- [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/)
+- [Main Issue Tracker](https://github.com/aixcyi/intellij-shebang/issues/)
+- [Secondary Issue Tracker](https://gitee.com/aixcyi/intellij-shebang/issues/)
