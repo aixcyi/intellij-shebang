@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.editor.colors.EditorColorsManager
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.ui.Messages
@@ -139,57 +140,69 @@ class ShebangComponent {
         })
         .createPanel()
 
-    private val associationTab = panel {
-        row {
-            val suffixField = textField()
-                .comment(message("label.SupportSuffixes.text"))
-                .resizableColumn()
-                .align(AlignX.FILL)
-                .gap(RightGap.SMALL)
-                .bindText(settings::myFileSuffixes)
-                .applyToComponent {
-                    val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
-                    val fontFamily = preferences.fontFamily
-                    font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
-                }
-                .component
-            anActionsButton(
-                object :
-                    DumbAwareAction(message("action.ReformatSuffixes.text")) {
-
-                    override fun getActionUpdateThread() = ActionUpdateThread.EDT
-
-                    override fun update(e: AnActionEvent) {
-                        e.presentation.isEnabled = suffixField.text.isNotBlank()
-                    }
-
-                    override fun actionPerformed(e: AnActionEvent) {
-                        suffixField.text = suffixField.text
-                            .split(ShebangSettings.DELIMITER)
-                            .filter { it.isNotBlank() }
-                            .distinct()
-                            .joinToString(ShebangSettings.DELIMITER)
-                    }
-                },
-                Separator.create(),
-                object :
-                    DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
-
-                    override fun getActionUpdateThread() = ActionUpdateThread.EDT
-
-                    override fun update(e: AnActionEvent) {
-                        e.presentation.isEnabled = suffixField.text != ShebangSettings.PRESET_FILE_SUFFIXES
-                    }
-
-                    override fun actionPerformed(e: AnActionEvent) {
-                        suffixField.text = ShebangSettings.PRESET_FILE_SUFFIXES
-                    }
-                }
-            )
-        }
-        if (ShebangSettings.FILETYPE_SHELL_SCRIPT !in fileTypeList) {
+    private val settingsTab = panel {
+        group(message("label.FileAssociation.text")) {
             row {
-                text(message("label.ShellScriptUnsupported.text"))
+                val suffixField = textField()
+                    .comment(message("label.SupportSuffixes.text"))
+                    .resizableColumn()
+                    .align(AlignX.FILL)
+                    .gap(RightGap.SMALL)
+                    .bindText(settings::myFileSuffixes)
+                    .applyToComponent {
+                        val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
+                        val fontFamily = preferences.fontFamily
+                        font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
+                    }
+                    .component
+                anActionsButton(
+                    object :
+                        DumbAwareAction(message("action.ReformatSuffixes.text")) {
+
+                        override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+                        override fun update(e: AnActionEvent) {
+                            e.presentation.isEnabled = suffixField.text.isNotBlank()
+                        }
+
+                        override fun actionPerformed(e: AnActionEvent) {
+                            suffixField.text = suffixField.text
+                                .split(ShebangSettings.DELIMITER)
+                                .filter { it.isNotBlank() }
+                                .distinct()
+                                .joinToString(ShebangSettings.DELIMITER)
+                        }
+                    },
+                    Separator.create(),
+                    object :
+                        DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
+
+                        override fun getActionUpdateThread() = ActionUpdateThread.EDT
+
+                        override fun update(e: AnActionEvent) {
+                            e.presentation.isEnabled = suffixField.text != ShebangSettings.PRESET_FILE_SUFFIXES
+                        }
+
+                        override fun actionPerformed(e: AnActionEvent) {
+                            suffixField.text = ShebangSettings.PRESET_FILE_SUFFIXES
+                        }
+                    }
+                )
+            }
+            if (ShebangSettings.FILETYPE_SHELL_SCRIPT !in fileTypeList) {
+                row {
+                    text(message("label.ShellScriptUnsupported.text"))
+                }
+            }
+        }
+        group(message("label.PathChooserOptions.text")) {
+            row {
+                val descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor()
+                textFieldWithBrowseButton(fileChooserDescriptor = descriptor)
+                    .comment(message("label.AbsChooserInitialFolder.text"))
+                    .resizableColumn()
+                    .align(AlignX.FILL)
+                    .bindText(settings::myAbsChooserBase)
             }
         }
     }
@@ -212,19 +225,19 @@ class ShebangComponent {
     }
 
     val rootPanel = JBTabbedPane().apply {
-        addTab(message("tab.PresetShebangList.title"), shebangsTab)
-        addTab(message("tab.FileAssociation.title"), associationTab)
+        addTab(message("label.PresetShebangList.text"), shebangsTab)
+        addTab(message("label.ExtraSettings.text"), settingsTab)
     }
 
-    fun isModified() = shebangsTab.isModified() || associationTab.isModified()
+    fun isModified() = shebangsTab.isModified() || settingsTab.isModified()
 
     fun apply() {
         shebangsTab.apply()
-        associationTab.apply()
+        settingsTab.apply()
     }
 
     fun reset() {
         shebangsTab.reset()
-        associationTab.reset()
+        settingsTab.reset()
     }
 }

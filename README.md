@@ -24,4 +24,4 @@
 - [插件市场](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/)
 - [问题与反馈（GitHub）](https://github.com/aixcyi/intellij-shebang/issues/)
 - [问题与反馈（码云）](https://github.com/aixcyi/intellij-shebang/issues/)
-- [QQ群 418751161](https://qm.qq.com/q/ou4RdUFMTm)
+- [QQ群 699090940](https://qm.qq.com/q/gPK9D7nBOU)

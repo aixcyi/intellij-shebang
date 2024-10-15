@@ -17,6 +17,8 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.ReadonlyStatusHandler
+import com.intellij.openapi.vfs.VirtualFileManager
+import net.aixcyi.utils.eval
 import java.nio.file.Path
 import kotlin.io.path.extension
 
@@ -114,7 +116,12 @@ class InsertShebangAction : DumbAwareAction() {
                     title = e.presentation.text
                     setRoots()
                 }
-                val chosen = FileChooser.chooseFile(descriptor, project, null) ?: return
+                val preSelect = eval {
+                    VirtualFileManager.getInstance().refreshAndFindFileByNioPath(
+                        Path.of(settings.myAbsChooserBase)
+                    )
+                }
+                val chosen = FileChooser.chooseFile(descriptor, project, preSelect) ?: return
                 writeShebang(project, editor, existedShebang, Shebang(chosen.path))
             }
         })

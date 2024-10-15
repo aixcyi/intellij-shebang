@@ -4,6 +4,8 @@
 
 1. 添加“码云”上的问题追踪链接。  
    Added issues tracker link which on Gitee.
+2. 选择绝对路径插入 shebang 时，允许调整初始目录，以便快速选择。  
+   Added an initial selection for Path Chooser that you can faster choose it.
 
 ## v1.4.0
 
