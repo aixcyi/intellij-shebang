@@ -45,5 +45,6 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
         var myShebangs by property(PRESET_SHEBANGS) { it == PRESET_SHEBANGS }
         var myFileSuffixes by property(PRESET_FILE_SUFFIXES) { it == PRESET_FILE_SUFFIXES }
         var myAbsChooserBase by property("", String::isEmpty)
+        var myChooserSuffixes by property("", String::isEmpty)
     }
 }

@@ -4,7 +4,6 @@ import cn.aixcyi.plugin.shebang.I18nProvider.message
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -15,6 +14,7 @@ import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.dsl.builder.RightGap
+import com.intellij.ui.dsl.builder.TopGap
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import net.aixcyi.shim.*
@@ -140,54 +140,21 @@ class ShebangComponent {
         })
         .createPanel()
 
+    private val editorFont = run {
+        val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
+        val fontFamily = preferences.fontFamily
+        Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
+    }
     private val settingsTab = panel {
         group(message("label.FileAssociation.text")) {
             row {
-                val suffixField = textField()
+                textFieldWithResetButton(ShebangSettings.PRESET_FILE_SUFFIXES)
                     .comment(message("label.SupportSuffixes.text"))
                     .resizableColumn()
                     .align(AlignX.FILL)
                     .gap(RightGap.SMALL)
                     .bindText(settings::myFileSuffixes)
-                    .applyToComponent {
-                        val preferences = EditorColorsManager.getInstance().schemeForCurrentUITheme.fontPreferences
-                        val fontFamily = preferences.fontFamily
-                        font = Font(fontFamily, Font.PLAIN, preferences.getSize(fontFamily))
-                    }
-                    .component
-                anActionsButton(
-                    object :
-                        DumbAwareAction(message("action.ReformatSuffixes.text")) {
-
-                        override fun getActionUpdateThread() = ActionUpdateThread.EDT
-
-                        override fun update(e: AnActionEvent) {
-                            e.presentation.isEnabled = suffixField.text.isNotBlank()
-                        }
-
-                        override fun actionPerformed(e: AnActionEvent) {
-                            suffixField.text = suffixField.text
-                                .split(ShebangSettings.DELIMITER)
-                                .filter { it.isNotBlank() }
-                                .distinct()
-                                .joinToString(ShebangSettings.DELIMITER)
-                        }
-                    },
-                    Separator.create(),
-                    object :
-                        DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
-
-                        override fun getActionUpdateThread() = ActionUpdateThread.EDT
-
-                        override fun update(e: AnActionEvent) {
-                            e.presentation.isEnabled = suffixField.text != ShebangSettings.PRESET_FILE_SUFFIXES
-                        }
-
-                        override fun actionPerformed(e: AnActionEvent) {
-                            suffixField.text = ShebangSettings.PRESET_FILE_SUFFIXES
-                        }
-                    }
-                )
+                    .applyToComponent { textField.font = editorFont }
             }
             if (ShebangSettings.FILETYPE_SHELL_SCRIPT !in fileTypeList) {
                 row {
@@ -197,6 +164,15 @@ class ShebangComponent {
         }
         group(message("label.PathChooserOptions.text")) {
             row {
+                textFieldWithResetButton("")
+                    .comment(message("label.ChooserSuffixes.text"))
+                    .resizableColumn()
+                    .align(AlignX.FILL)
+                    .bindText(settings::myChooserSuffixes)
+                    .applyToComponent { textField.font = editorFont }
+            }
+            row {
+                topGap(TopGap.SMALL)
                 val descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor()
                 textFieldWithBrowseButton(fileChooserDescriptor = descriptor)
                     .comment(message("label.AbsChooserInitialFolder.text"))

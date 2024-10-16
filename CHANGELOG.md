@@ -6,6 +6,8 @@
    Added issues tracker link which on Gitee.
 2. 选择绝对路径插入 shebang 时，允许调整初始目录，以便快速选择。  
    Added an initial selection for Path Chooser that you can faster choose it.
+3. 选择路径时允许过滤文件后缀。  
+   Allow filter files by suffix while selecting path to insert Shebang.
 
 ## v1.4.0
 
