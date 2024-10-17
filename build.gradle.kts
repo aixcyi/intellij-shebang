@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "cn.aixcyi.plugin"
-version = "1.5.0"  // https://semver.org/lang/zh-CN/
+version = "2.0.0"  // https://semver.org/lang/zh-CN/
 
 repositories {
     mavenLocal()
@@ -18,7 +18,7 @@ repositories {
 // Gradle IntelliJ Plugin
 // https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("PC-2022.2.5")
+    version.set("PC-2022.3.3")
     plugins.set(listOf())
 }
 
@@ -49,7 +49,7 @@ tasks {
         )
     }
     patchPluginXml {
-        sinceBuild.set("222")
+        sinceBuild.set("223")
         untilBuild.set("242.*")
         pluginDescription.set(file("DESCRIPTION.html").readText())
         changeNotes.set(provider {

@@ -9,10 +9,11 @@ import com.intellij.ui.TextAccessor
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.components.fields.ExtendableTextField
 import com.intellij.ui.dsl.builder.*
-import com.intellij.util.ui.UIUtil
+import com.intellij.util.ui.SwingUndoUtil
 import javax.swing.Icon
 import javax.swing.JTextField
 import kotlin.reflect.KMutableProperty0
+
 
 class TextFieldWithResetButton(private val defaultText: String) :
     ComponentWithBrowseButton<JTextField>(ExtendableTextField(10), null), TextAccessor {
@@ -20,10 +21,7 @@ class TextFieldWithResetButton(private val defaultText: String) :
     init {
         ClientProperty.get(textField, AnAction.ACTIONS_KEY)?.removeAll { true }  // 移除父类构造时绑定的快捷键
         if (textField !is JBTextField) {
-            UIUtil.addUndoRedoActions(textField)
-            // FUTURE: 将最低兼容版本升级到 223
-            // import com.intellij.util.ui.SwingUndoUtil
-            // SwingUndoUtil.addUndoRedoActions(textField)
+            SwingUndoUtil.addUndoRedoActions(textField)
         }
         textField.addActionListener {
             // TODO: 无法触发
