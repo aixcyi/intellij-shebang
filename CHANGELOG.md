@@ -1,6 +1,6 @@
 # 更新日志／Changelog
 
-## v2.0.0
+## v2.0.0-SNAPSHOT
 
 1. 将最低兼容版本提升到 2022.3  
    Upgrade minimum compatible version to 2022.3
