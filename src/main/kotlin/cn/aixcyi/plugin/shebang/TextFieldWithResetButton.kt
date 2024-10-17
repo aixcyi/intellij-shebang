@@ -21,8 +21,12 @@ class TextFieldWithResetButton(private val defaultText: String) :
         ClientProperty.get(textField, AnAction.ACTIONS_KEY)?.removeAll { true }  // 移除父类构造时绑定的快捷键
         if (textField !is JBTextField) {
             UIUtil.addUndoRedoActions(textField)
+            // FUTURE: 将最低兼容版本升级到 223
+            // import com.intellij.util.ui.SwingUndoUtil
+            // SwingUndoUtil.addUndoRedoActions(textField)
         }
         textField.addActionListener {
+            // TODO: 无法触发
             setButtonEnabled(textField.text != defaultText)
         }
         addActionListener {

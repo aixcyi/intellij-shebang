@@ -45,7 +45,7 @@ class InsertShebangAction : DumbAwareAction() {
         }
         val settings = ShebangSettings.getInstance().state
         val fileType = FileTypeManager.getInstance().getFileTypeByFile(file.virtualFile)
-        val suffixes = settings.myFileSuffixes.split(ShebangSettings.DELIMITER).filterNot(String::isBlank)
+        val suffixes = settings.split { myFileSuffixes }
 
         event.presentation.isEnabled = run {
             if (fileType.javaClass.name == ShebangSettings.FILETYPE_SHELL_SCRIPT)
@@ -91,7 +91,7 @@ class InsertShebangAction : DumbAwareAction() {
             override fun actionPerformed(e: AnActionEvent) {
                 val profile = project.projectFile ?: return
                 val root = ProjectFileIndex.getInstance(project).getContentRootForFile(profile) ?: return
-                val suffixes = settings.myChooserSuffixes.split(ShebangSettings.DELIMITER).filterNot(String::isBlank)
+                val suffixes = settings.split { myChooserSuffixes }
                 val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor().apply {
                     title = e.presentation.text
                     setRoots(root)
@@ -115,7 +115,7 @@ class InsertShebangAction : DumbAwareAction() {
         })
         group.add(object : DumbAwareAction(message("action.Shebang.Insert.FromAbsolutePath.text")) {
             override fun actionPerformed(e: AnActionEvent) {
-                val suffixes = settings.myChooserSuffixes.split(ShebangSettings.DELIMITER).filterNot(String::isBlank)
+                val suffixes = settings.split { myChooserSuffixes }
                 val descriptor = FileChooserDescriptorFactory.createSingleFileOrExecutableAppDescriptor().apply {
                     title = e.presentation.text
                     setRoots()

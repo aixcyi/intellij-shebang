@@ -34,8 +34,7 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
             "./venv/Scripts/python.exe",
         )
 
-        const val DELIMITER = "|"
-        const val PRESET_FILE_SUFFIXES = "bash|sh|zsh|py|pl|pm|rb"
+        const val PRESET_FILE_SUFFIXES = "bash,sh,zsh,py,pl,pm,rb"
         const val FILETYPE_SHELL_SCRIPT = "com.intellij.sh.ShFileType"
 
         fun getInstance(): ShebangSettings = service()
@@ -46,5 +45,9 @@ class ShebangSettings : SimplePersistentStateComponent<ShebangSettings.State>(St
         var myFileSuffixes by property(PRESET_FILE_SUFFIXES) { it == PRESET_FILE_SUFFIXES }
         var myAbsChooserBase by property("", String::isEmpty)
         var myChooserSuffixes by property("", String::isEmpty)
+
+        fun split(prop: State.() -> String): List<String> {
+            return prop().split(",", "|").filterNot(String::isBlank)
+        }
     }
 }

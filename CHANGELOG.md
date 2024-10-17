@@ -1,6 +1,6 @@
 # 更新日志／Changelog
 
-## v1.4.1
+## v1.5.0
 
 1. 添加“码云”上的问题追踪链接。  
    Added issues tracker link which on Gitee.
@@ -8,6 +8,8 @@
    Added an initial selection for Path Chooser that you can faster choose it.
 3. 选择路径时允许过滤文件后缀。  
    Allow filter files by suffix while selecting path to insert Shebang.
+4. 同时支持 “,” 和 “|” 作为文件后缀的分隔符。  
+   Supports using both "," and "|" as delimiters when setting file suffix.
 
 ## v1.4.0
 
