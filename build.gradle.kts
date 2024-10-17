@@ -61,6 +61,7 @@ tasks {
     }
     downloadZipSigner {
         cli = file("./marketplace-zip-signer-cli.jar")
+        cliPath = file("./marketplace-zip-signer-cli.jar").absolutePath
     }
     signPlugin {
         certificateChainFile.set(file("./.secret/chain.crt"))
