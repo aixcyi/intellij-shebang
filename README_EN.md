@@ -17,8 +17,8 @@ An IntelliJ-based IDE plugin, provides [Shebang](https://en.wikipedia.org/wiki/S
 
 - IntelliJ-based IDE 2022.2+, both Community and Professional Edition,
   see [Marketplace](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions) for detail
-  - 2.x+ required 2022.3+
-  - [1.x](.//blob/1.x/README.md) required 2022.2+
+  - 2.x required 2022.3+
+  - 1.x required 2022.2+
 - DevEco Studio NEXT Developer Beta1
 - _Not tested on other platforms_
 

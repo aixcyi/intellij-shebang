@@ -18,7 +18,7 @@
 - 基于 IntelliJ 的 IDE 2022.2+（详见[插件市场](https://plugins.jetbrains.com/plugin/24907-hootool--shebang/versions)
   ），包括社区版及专业版
   - 2.x 需要 2022.3+
-  - [1.x](./blob/1.x/README.md) 需要 2022.2+
+  - 1.x 需要 2022.2+
 - DevEco Studio NEXT Developer Beta1
 - _未对其它平台进行测试_
 
