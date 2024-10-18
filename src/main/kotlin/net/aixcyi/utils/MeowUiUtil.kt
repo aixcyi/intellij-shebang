@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package net.aixcyi.utils
 
 import com.intellij.openapi.diagnostic.thisLogger
@@ -73,6 +71,13 @@ fun <T : JComponent> Cell<T>.mnemonic(): Cell<T> {
         else -> {}
     }
     return this
+}
+
+/** 检查所有选中项是否在顶部连续排列。没有选中任何条目也会返回 `true` 。 */
+fun JBList<*>.isAllSelectionsOnTop(): Boolean {
+    return this.selectionModel.selectedIndices.let { indices ->
+        indices.isEmpty() || indices.withIndex().all { it.index == it.value }
+    }
 }
 
 /** 检查所有选中项是否在底部连续排列。没有选中任何条目也会返回 `true` 。 */

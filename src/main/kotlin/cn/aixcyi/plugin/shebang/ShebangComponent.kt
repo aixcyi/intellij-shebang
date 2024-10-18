@@ -17,11 +17,10 @@ import com.intellij.ui.dsl.builder.RightGap
 import com.intellij.ui.dsl.builder.TopGap
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
-import net.aixcyi.shim.*
-import net.aixcyi.utils.MultilineInputDialog
-import net.aixcyi.utils.isAllSelectionsOnBottom
-import net.aixcyi.utils.moveSelectionsToBottom
-import net.aixcyi.utils.moveSelectionsToTop
+import net.aixcyi.shim.AlignX
+import net.aixcyi.shim.AlignY
+import net.aixcyi.shim.align
+import net.aixcyi.utils.*
 import java.awt.Font
 
 
@@ -72,7 +71,7 @@ class ShebangComponent {
             shebangModel.remove(shebangList.selectedIndex)
             shebangList.selectionModel.leadSelectionIndex = shebangList.leadSelectionIndex
         }
-        .putExtraAction(object : DumbAwareAction(message("action.MoveToTop.text"), null, AllIcons.Actions.Upload) {
+        .addExtraAction(object : DumbAwareAction(message("action.MoveToTop.text"), null, AllIcons.Actions.Upload) {
 
             override fun getActionUpdateThread() = ActionUpdateThread.EDT
 
@@ -84,7 +83,7 @@ class ShebangComponent {
                 shebangList.moveSelectionsToTop()
             }
         })
-        .putExtraAction(object : DumbAwareAction(message("action.MoveToBottom.text"), null, AllIcons.Actions.Download) {
+        .addExtraAction(object : DumbAwareAction(message("action.MoveToBottom.text"), null, AllIcons.Actions.Download) {
 
             override fun getActionUpdateThread() = ActionUpdateThread.EDT
 
@@ -96,7 +95,7 @@ class ShebangComponent {
                 shebangList.moveSelectionsToBottom()
             }
         })
-        .putExtraAction(object : DumbAwareAction(message("action.Sorting.text"), null, AllIcons.ObjectBrowser.Sorted) {
+        .addExtraAction(object : DumbAwareAction(message("action.Sorting.text"), null, AllIcons.ObjectBrowser.Sorted) {
 
             private var desc = false
 
@@ -108,7 +107,7 @@ class ShebangComponent {
                 desc = !desc
             }
         })
-        .putExtraAction(object :
+        .addExtraAction(object :
             DumbAwareAction(message("action.EditShebangList.text"), null, AllIcons.Actions.EditScheme) {
             override fun actionPerformed(e: AnActionEvent) {
                 MultilineInputDialog()
@@ -125,7 +124,7 @@ class ShebangComponent {
                     }
             }
         })
-        .putExtraAction(object :
+        .addExtraAction(object :
             DumbAwareAction(message("action.RestoreToDefault.text"), null, AllIcons.General.Reset) {
 
             override fun getActionUpdateThread() = ActionUpdateThread.EDT

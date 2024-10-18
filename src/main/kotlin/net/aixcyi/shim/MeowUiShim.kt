@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package net.aixcyi.shim
 
 import com.intellij.icons.AllIcons
@@ -8,7 +6,6 @@ import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.impl.ActionButton
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.components.JBList
 import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.Row
 import net.aixcyi.utils.MeowUiUtil
@@ -82,8 +79,8 @@ fun <T : JComponent> Cell<T>.yAlign(align: AlignY): Cell<T> {
 /**
  * 添加一个按钮到工具条上。
  *
- * - 兼容 231.4840+ 的 `ToolbarDecorator.addExtraAction(AnAction)`
- * - 兼容 173.4674+ 的 `ToolbarDecorator.addExtraAction(AnActionButton)`
+ * - 兼容 223.7571 之后的 `addExtraAction(AnAction)`
+ * - 兼容 223.7571 以前的 `addExtraAction(AnActionButton)`
  *
  * @see [ToolbarDecorator.addExtraAction]
  */
@@ -132,11 +129,4 @@ fun Row.anActionsButton(
     return this::class.functions
         .first { it.name == "actionsButton" }
         .call(this, actions, actionPlace, icon) as Cell<ActionButton>
-}
-
-/** 检查所有选中项是否在顶部连续排列。没有选中任何条目也会返回 `true` 。 */
-fun JBList<*>.isAllSelectionsOnTop(): Boolean {
-    return this.selectionModel.selectedIndices.let { indices ->
-        indices.isEmpty() || indices.withIndex().all { it.index == it.value }
-    }
 }
